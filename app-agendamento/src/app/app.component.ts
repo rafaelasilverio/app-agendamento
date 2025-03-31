@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { PrimeNG } from 'primeng/config';
-import { HomeComponent } from './pages/home/container/home/home.component';
+import { FooterComponent } from './layout/footer/footer.component';
+import { NavbarComponent } from './layout/navbar/navbar.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, HomeComponent, MatButtonModule],
+  imports: [RouterOutlet, MatButtonModule, NavbarComponent, FooterComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

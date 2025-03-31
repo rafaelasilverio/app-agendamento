@@ -1,0 +1,63 @@
+<app-display-container>
+  <!-- Carousel -->
+  <div class="container">
+    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <div *ngFor="let service of services; let i = index" class="carousel-item" [ngClass]="{ 'active': i === 0 }">
+          <div class="d-flex justify-content-center align-items-center p-5 bg-light text-dark">
+            <div class="text-center">
+              <h3>{{ service.name }}</h3>
+              <p>{{ service.description }}</p>
+              <button class="btn btn-primary">Saiba mais</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+        data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+        data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Espaçamento entre o carousel e os cards -->
+  <div class="my-5"></div>
+
+  <!-- Cards um abaixo do outro -->
+  <div class="container">
+    <div class="row">
+      <div class="col-12 mb-4">
+        <div class="card">
+          <div class="bg-secondary text-white d-flex justify-content-center align-items-center" style="height: 200px;">
+            <span>Imagem aqui</span>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">Consultoria de TI</h5>
+            <p class="card-text">Serviço especializado para otimizar sua infraestrutura tecnológica.</p>
+            <a href="#" class="btn btn-primary">Saiba mais</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 mb-4">
+        <div class="card">
+          <div class="bg-secondary text-white d-flex justify-content-center align-items-center" style="height: 200px;">
+            <span>Imagem aqui</span>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">Segurança da Informação</h5>
+            <p class="card-text">Proteja seus dados e infraestrutura contra ameaças digitais.</p>
+            <a href="#" class="btn btn-primary">Saiba mais</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-display-container>
