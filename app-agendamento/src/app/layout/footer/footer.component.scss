@@ -1,0 +1,16 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+#content {
+  flex: 1; // Faz com que o conteúdo ocupe o espaço disponível
+}
+
+footer {
+  width: 100%;
+  background-color: #f8f9fa;
+  padding: 20px 0;
+}
