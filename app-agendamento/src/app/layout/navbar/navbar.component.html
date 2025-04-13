@@ -1,13 +1,15 @@
 <div class="flex-row flex-wrap">
   <nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">
-        <img src="../../../assets/img/logo-acheiaki.svg" alt="logo" width="30" height="30">
-      </a>
+    <div class="flex container-fluid">
+      <div class="flex d-flex gap-0">
+        <a class="navbar-brand" href="#">
+          <img src="../../../assets/img/logo/logo-agenday.svg" alt="Logo Agenday" class="img-fluid" style="max-height: 50px;">
+        </a>
+      </div>
       <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
-        <ul class="navbar-nav">
+        <ul class="navbar-nav d-flex gap-2 ps-4">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Inicio</a>
+            <a class="nav-link active" aria-current="page" href="#">Início</a>
           </li>
           <li class="nav-item">
             <!-- Adicionando a classe 'nav-link' para garantir que o cursor se torne uma mãozinha -->
@@ -24,8 +26,8 @@
         </form>
 
         <div class="d-flex gap-2">
-          <button type="button" class="btn btn-outline-success" (click)="paginaLogin()"><i class="bi bi-door-open"></i> Login</button>
-          <button type="button" class="btn btn-light btn-outline-warning" (click)="paginaCadastrarServicos()"><i class="bi bi-person-plus"></i> Cadastrar serviços</button>
+          <button type="button" class="btn text-black" (click)="paginaLogin()">Fazer login</button>
+          <button type="button" class="btn text-light btn btn-warning"  style="border-radius: 50px" (click)="paginaCadastrarUsuarios()">Cadastrar-se</button>
         </div>
       </div>
     </div>

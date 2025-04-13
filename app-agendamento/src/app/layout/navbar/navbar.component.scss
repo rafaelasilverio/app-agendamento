@@ -1,3 +1,9 @@
 a.nav-link {
   cursor: pointer;
 }
+
+li {
+  a {
+    padding: 0;
+  }
+}
