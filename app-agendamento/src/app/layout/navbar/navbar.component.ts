@@ -14,6 +14,11 @@ export class NavbarComponent {
   paginaLogin() {
     this.router.navigate(['/login-in']);
   }
+
+  paginaCadastrarUsuarios() {
+    this.router.navigate(['/cadastrar-se']);
+  }
+
   paginaCadastrarServicos() {
     this.router.navigate(['/cadastrar-servicos']);
   }
