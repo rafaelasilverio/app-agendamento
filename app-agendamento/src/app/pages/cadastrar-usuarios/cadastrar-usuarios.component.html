@@ -1,1 +1,40 @@
-<p>cadastro-usuarios works!</p>
+<div class="d-flex justify-content-center align-items-center min-vh-100 py-5 bg-gradiente">
+  <div class="card shadow" style="max-width: 500px; width: 100%; background-color: rgba(255, 255, 255, 0.95);">
+    <div class="card-body">
+      <h5 class="card-title text-center mb-4">Formulário</h5>
+      <form [formGroup]="formUsuario" (ngSubmit)="cadastrarUsuario()">
+        <div class="mb-3">
+          <label for="nome" class="form-label">Nome</label>
+          <input type="text" id="nome" class="form-control" placeholder="Nome completo..." formControlName="nome">
+        </div>
+
+        <div class="mb-3">
+          <label for="email" class="form-label">E-mail</label>
+          <input type="email" id="email" class="form-control" formControlName="email">
+          <div *ngIf="formUsuario.get('email')?.touched && formUsuario.get('email')?.invalid" class="text-danger small">
+            Email inválido.
+          </div>
+
+        </div>
+
+        <div class="mb-3">
+          <label for="senha" class="form-label">Senha</label>
+          <div class="flex">
+            <input [type]="mostrarSenha ? 'text' : 'password'" id="senha" class="form-control" formControlName="senha">
+            <button class="btn btn-outline-secondary senha-toggle" type="button" (click)="toggleSenha()">
+              <i class="bi" [ngClass]="mostrarSenha ? 'bi-eye-slash' : 'bi-eye'" role="button"></i>
+            </button>
+          </div>
+        </div>
+
+
+        <div class="mb-3">
+          <label for="telefone" class="form-label">Telefone</label>
+          <input type="tel" id="telefone" class="form-control" formControlName="telefone">
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Cadastrar-me</button>
+      </form>
+    </div>
+  </div>
+</div>
