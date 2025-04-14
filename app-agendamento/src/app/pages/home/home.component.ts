@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
-import { DisplayContainerComponent } from '../../layout/display-container/display-container.component';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, DisplayContainerComponent],
+  imports: [CommonModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })

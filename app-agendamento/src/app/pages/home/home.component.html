@@ -4,7 +4,8 @@
     <div class="col-12">
       <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel" style="height: 400px;">
         <div class="carousel-inner h-100">
-          <div *ngFor="let service of services; let i = index" class="carousel-item h-100" [ngClass]="{ 'active': i === 0 }">
+          <div *ngFor="let service of services; let i = index" class="carousel-item h-100"
+            [ngClass]="{ 'active': i === 0 }">
             <div class="d-flex justify-content-center align-items-center h-100 bg-light text-dark">
               <div class="text-center">
                 <h3>{{ service.name }}</h3>
@@ -15,11 +16,13 @@
           </div>
         </div>
 
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+          data-bs-slide="prev">
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Previous</span>
         </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+          data-bs-slide="next">
           <span class="carousel-control-next-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Next</span>
         </button>
@@ -39,32 +42,65 @@
                 class="img-fluid w-100 h-100" style="object-fit: cover;">
             </div>
             <div class="card-body">
-              <h5 class="card-title">Serviços para sua Casa ou Negócio</h5>
+              <h5 class="card-title">Pesquise e encontre serviços</h5>
               <p class="card-text">
-                Encontre profissionais autônomos confiáveis para ajudar com reparos domésticos, montagem de móveis, instalações elétricas, hidráulicas e muito mais. Conecte-se ao profissional ideal com rapidez, confiança e praticidade.
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                scrambled it to make a type specimen book.
               </p>
               <a href="#" class="btn btn-primary">Saiba mais</a>
             </div>
           </div>
         </div>
 
-        <!-- Card 2 - Atualizado -->
+        <!-- Card 2 com imagem ocupando toda a largura e mantendo foco -->
         <div class="col-md-6 mb-4">
           <div class="card h-100 w-100">
+            <!-- Imagem ajustada para preencher a largura corretamente -->
             <div style="height: 300px; overflow: hidden;">
-              <img src="../../../assets/img/tela-principal/pessoa-pesquisando.jpg" alt="Pessoa pesquisando"
-                class="img-fluid w-100 h-100" style="object-fit: cover;">
+              <img src="../../../assets/img/tela-principal/autonomo.jpg" alt="Profissional autônomo"
+                class="img-fluid w-100" style="height: 100%; object-fit: cover; object-position: center;">
             </div>
+
             <div class="card-body">
-              <h5 class="card-title">Segurança da Informação</h5>
+              <h5 class="card-title">Ofereça seus serviços</h5>
               <p class="card-text">
-                É especialista em segurança digital? Ofereça seus serviços como autônomo e ajude empresas e usuários a se protegerem contra ataques, vazamentos e invasões. Realize auditorias, configure firewalls, implemente boas práticas e permita que seus clientes agendem orçamentos diretamente pela plataforma.
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                scrambled it to make a type specimen book.
               </p>
-              <a href="#" class="btn btn-primary">Agendar orçamento</a>
+              <a href="#" class="btn btn-primary">Saiba mais</a>
             </div>
           </div>
         </div>
-      </div> <!-- row interna -->
-    </div> <!-- col-12 externa -->
+
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Novo card estilo texto | imagem -->
+  <div class="row justify-content-center align-items-center mb-5">
+    <div class="col-12">
+      <div class="card border-0 shadow-lg">
+        <div class="row g-0 align-items-center">
+          <!-- Texto à esquerda -->
+          <div class="col-md-6 pe-5">
+            <h1 class="fw-bold">Contrate ou ofereça serviços de forma prática e segura</h1>
+            <p class="text-muted pt-4">
+              Encontre profissionais qualificados para manutenção, assessoria, consultoria e muito mais.
+              Se você é autônomo, cadastre-se e divulgue suas especializações para milhares de clientes em busca dos
+              seus serviços.
+            </p>
+          </div>
+
+          <!-- Imagem à direita -->
+          <div class="col-md-6 text-center position-relative">
+            <img src="../../../assets/img/tela-principal/pessoa-autonomo.png" alt="Profissional autônomo"
+              class="img-fluid p-0" style="max-height: 400px;">
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
