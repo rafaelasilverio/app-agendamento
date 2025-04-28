@@ -3,13 +3,13 @@ import { Component } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-cadastrar-usuarios',
+  selector: 'app-tela-cadastro',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './cadastrar-usuarios.component.html',
-  styleUrls: ['./cadastrar-usuarios.component.scss']
+  templateUrl: './tela-cadastro.component.html',
+  styleUrls: ['./tela-cadastro.component.scss']
 })
-export class CadastrarUsuariosComponent {
+export class TelaCadastroComponent {
   formUsuario!: FormGroup;
   mostrarSenha = false;
 
