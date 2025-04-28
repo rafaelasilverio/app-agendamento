@@ -1,106 +1,85 @@
-<div class="container">
-  <!-- Carrossel com altura ajustada -->
+<div class="container mt-5">
   <div class="row justify-content-center mb-5">
     <div class="col-12">
-      <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel" style="height: 400px;">
+      <div id="carouselExampleControls" class="carousel slide rounded overflow-hidden shadow" data-bs-ride="carousel" style="height: 450px;">
         <div class="carousel-inner h-100">
-          <div *ngFor="let service of services; let i = index" class="carousel-item h-100"
-            [ngClass]="{ 'active': i === 0 }">
-            <div class="d-flex justify-content-center align-items-center h-100 bg-light text-dark">
-              <div class="text-center">
-                <h3>{{ service.name }}</h3>
-                <p>{{ service.description }}</p>
-                <button class="btn btn-primary">Saiba mais</button>
+          <div *ngFor="let service of services; let i = index" class="carousel-item h-100" [ngClass]="{ 'active': i === 0 }">
+            <div class="position-relative h-100 w-100">
+              <!-- Imagem preenchendo tudo -->
+              <img [src]="service.image" alt="{{ service.name }}" class="d-block w-100 h-100" style="object-fit: cover;">
+              <!-- Texto no rodapé -->
+              <div class="position-absolute bottom-0 start-0 w-100 p-4 text-center text-white" style="background: rgba(0,0,0,0.3);">
+                <h3 class="mb-2">{{ service.name }}</h3>
+                <p class="mb-0">{{ service.description }}</p>
               </div>
             </div>
           </div>
         </div>
-
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
-          data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
+        <!-- Controles -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon"></span>
+          <span class="visually-hidden">Anterior</span>
         </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
-          data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+          <span class="carousel-control-next-icon"></span>
+          <span class="visually-hidden">Próximo</span>
         </button>
       </div>
     </div>
   </div>
 
-  <!-- Cards com largura igual à do carrossel -->
-  <div class="row justify-content-center">
-    <div class="col-12">
-      <div class="row">
-        <!-- Card 1 -->
-        <div class="col-md-6 mb-4">
-          <div class="card h-100 w-100">
-            <div style="height: 300px; overflow: hidden;">
-              <img src="../../../assets/img/tela-principal/pessoa-pesquisando.jpg" alt="Pessoa pesquisando"
-                class="img-fluid w-100 h-100" style="object-fit: cover;">
-            </div>
-            <div class="card-body">
-              <h5 class="card-title">Pesquise e encontre serviços</h5>
-              <p class="card-text">
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-                industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
-                scrambled it to make a type specimen book.
-              </p>
-              <a href="#" class="btn btn-primary">Saiba mais</a>
-            </div>
+  <!-- Cards -->
+<div class="row justify-content-center mb-5">
+  <div class="col-12">
+    <div class="row g-4">
+
+      <!-- Card 1 -->
+      <div class="col-md-6">
+        <div class="card h-100 shadow-sm border-0">
+          <div class="overflow-hidden" style="height: 300px;">
+            <img src="../../../assets/img/tela-principal/pessoa-pesquisando.jpg" alt="Pessoa pesquisando" class="img-fluid w-100 h-100" style="object-fit: cover;">
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">Pesquise e encontre serviços</h5>
+            <p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry...</p>
+            <a href="#" class="btn btn-primary mt-3">Saiba mais</a>
           </div>
         </div>
-
-        <!-- Card 2 com imagem ocupando toda a largura e mantendo foco -->
-        <div class="col-md-6 mb-4">
-          <div class="card h-100 w-100">
-            <!-- Imagem ajustada para preencher a largura corretamente -->
-            <div style="height: 300px; overflow: hidden;">
-              <img src="../../../assets/img/tela-principal/autonomo.jpg" alt="Profissional autônomo"
-                class="img-fluid w-100" style="height: 100%; object-fit: cover; object-position: center;">
-            </div>
-
-            <div class="card-body">
-              <h5 class="card-title">Ofereça seus serviços</h5>
-              <p class="card-text">
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-                industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
-                scrambled it to make a type specimen book.
-              </p>
-              <a href="#" class="btn btn-primary">Saiba mais</a>
-            </div>
-          </div>
-        </div>
-
-
       </div>
+
+      <!-- Card 2 -->
+      <div class="col-md-6">
+        <div class="card h-100 shadow-sm border-0">
+          <div class="overflow-hidden" style="height: 300px;">
+            <img src="../../../assets/img/tela-principal/autonomo.jpg" alt="Profissional autônomo" class="img-fluid w-100 h-100" style="object-fit: cover;">
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">Ofereça seus serviços</h5>
+            <p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry...</p>
+            <a href="#" class="btn btn-primary mt-3">Saiba mais</a>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
+</div>
 
-  <!-- Novo card estilo texto | imagem -->
-  <div class="row justify-content-center align-items-center mb-5">
-    <div class="col-12">
-      <div class="card border-0 shadow-lg">
-        <div class="row g-0 align-items-center">
-          <!-- Texto à esquerda -->
-          <div class="col-md-6 pe-5">
-            <h1 class="fw-bold">Contrate ou ofereça serviços de forma prática e segura</h1>
-            <p class="text-muted pt-4">
-              Encontre profissionais qualificados para manutenção, assessoria, consultoria e muito mais.
-              Se você é autônomo, cadastre-se e divulgue suas especializações para milhares de clientes em busca dos
-              seus serviços.
-            </p>
-          </div>
-
-          <!-- Imagem à direita -->
-          <div class="col-md-6 text-center position-relative">
-            <img src="../../../assets/img/tela-principal/pessoa-autonomo.png" alt="Profissional autônomo"
-              class="img-fluid p-0" style="max-height: 400px;">
-          </div>
+  <div class="row align-items-center g-5">
+    <div class="col-md-6">
+      <div class="card border-0 bg-transparent">
+        <div class="card-body p-0">
+          <h1 class="fw-bold mb-4">Contrate ou ofereça serviços de forma prática e segura</h1>
+          <p class="text-muted">
+            Encontre profissionais qualificados para manutenção, assessoria, consultoria e muito mais.
+            Se você é autônomo, cadastre-se e divulgue suas especializações para milhares de clientes.
+          </p>
         </div>
       </div>
+    </div>
+
+    <div class="col-md-6 text-center d-flex justify-content-end align-items-end">
+      <img src="../../../assets/img/tela-principal/pessoa-autonomo.png" alt="Profissional autônomo" class="img-fluid" style="max-height: 400px;">
     </div>
   </div>
 </div>

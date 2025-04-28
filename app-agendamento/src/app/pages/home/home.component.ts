@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { CarouselImgService } from './service/carousel-img.service';
 
 @Component({
   selector: 'app-home',
@@ -8,18 +9,13 @@ import { CommonModule } from '@angular/common';
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
 
   services: any[] = [];
 
-  constructor() { }
+  constructor(private carouselImgService: CarouselImgService) { }
 
   ngOnInit() {
-    this.services = [
-      { name: 'Consultoria de TI', description: 'Serviço especializado para otimizar sua infraestrutura tecnológica.' },
-      { name: 'Desenvolvimento Web', description: 'Criação de sites e sistemas personalizados para seu negócio.' },
-      { name: 'Segurança da Informação', description: 'Proteção contra ameaças cibernéticas e compliance com normas.' },
-      { name: 'Suporte Técnico', description: 'Atendimento rápido para solucionar problemas e manter sua operação ativa.' }
-    ];
+    this.services = this.carouselImgService.getCarouselItems();
   }
 }
