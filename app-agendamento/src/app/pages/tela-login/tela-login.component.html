@@ -1,14 +1,14 @@
-<div class="d-flex justify-content-center align-items-center vh-100 bg-gradiente">
-  <div class="card p-0 shadow-lg d-flex flex-row" style="max-width: 900px; width: 100%; height: 500px;">
+<div class="d-flex justify-content-center align-items-center min-vh-100 bg-gradiente py-5">
+  <div class="card p-0 shadow-sm d-flex flex-row flex-wrap" style="max-width: 900px; width: 100%; min-height: 500px;">
     <!-- Área da imagem -->
-    <div class="d-flex align-items-center justify-content-center"
-      style="width: 50%; overflow: hidden; border-top-left-radius: 0.5rem; border-bottom-left-radius: 0.5rem;">
+    <div class="d-flex align-items-center justify-content-center flex-grow-1"
+      style="min-width: 300px; max-width: 450px; overflow: hidden; border-top-left-radius: 0.3rem; border-bottom-left-radius: 0.3rem;">
       <img src="../../../assets/img/login/login-img.jpg" alt="Imagem de Login"
         style="width: 100%; height: 100%; object-fit: cover;">
     </div>
 
     <!-- Área do formulário -->
-    <div class="p-4 d-flex flex-column justify-content-center" style="width: 50%;">
+    <div class="p-4 d-flex flex-column justify-content-center flex-grow-1" style="min-width: 300px; max-width: 450px;">
       <h2 class="text-center mb-4">Acesse sua conta</h2>
       <form>
         <div class="mb-3">
@@ -22,7 +22,7 @@
         <button type="submit" class="btn btn-primary w-100">Entrar</button>
         <div class="text-center mt-3">
           <a href="#" class="text-decoration-none">Esqueceu sua senha?</a> <br>
-          <span class="fw-bold">Não tem uma conta? <a href="#" class="text-decoration-none">Cadastre-se</a></span>
+          <span class="fw-bold d-flex align-items-center justify-content-center">Não tem uma conta? <button type="button" class="btn btn-link fw-bold text-decoration-none" (click)="paginaCadastrarUsuarios()">Cadastre-se</button></span>
         </div>
         <div class="text-center mt-3 text-muted">
           <small>Termos de uso. Política de privacidade</small>

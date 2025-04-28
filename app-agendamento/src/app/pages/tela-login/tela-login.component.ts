@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tela-login',
@@ -8,4 +9,13 @@ import { CommonModule } from '@angular/common';
   templateUrl: './tela-login.component.html',
   styleUrls: ['./tela-login.component.scss']
 })
-export class TelaLoginComponent {}
+export class TelaLoginComponent {
+
+  constructor(private router: Router) { }
+
+
+
+  paginaCadastrarUsuarios() {
+    this.router.navigate(['/cadastrar-se']);
+  }
+}
