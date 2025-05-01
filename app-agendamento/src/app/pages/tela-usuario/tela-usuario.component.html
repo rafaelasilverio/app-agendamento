@@ -10,14 +10,14 @@
 
 <!-- Offcanvas Sidebar (lado esquerdo) -->
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-  <div class="offcanvas-header justify-content-center position-relative">
+  <div class="offcanvas-header justify-content-center position-relative p-0">
     <h5 class="offcanvas-title text-center w-100 mb-0" id="offcanvasExampleLabel">Menu</h5>
     <button type="button" class="btn-close position-end top-0 end-0 m-3" data-bs-dismiss="offcanvas" aria-label="Fechar"></button>
   </div>
 
-  <div class="offcanvas-body d-flex flex-column justify-content-center align-items-center p-0">
+  <div class="offcanvas-body d-flex flex-column justify-content-center align-items-center p-16">
     <!-- Foto do usuário -->
-    <div class="mb-4 text-center">
+    <div class="mb-4 text-center g-0">
       <img src="https://randomuser.me/api/portraits/men/32.jpg" class="rounded-circle" alt="Usuário" style="width: 150px; height: 150px;">
       <p class="mt-2 mb-0 fw-bold">Nome Usuário</p>
       <small class="text-muted">Cliente</small>
@@ -26,23 +26,30 @@
     <!-- Lista de opções -->
     <ul class="nav flex-column text-center w-100 p-0">
       <li class="nav-item mb-3">
-        <a href="#" class="nav-link sidebar-link">
-          <i class="bi bi-calendar-check me-2"></i> Meus Agendamentos
+        <a href="#" class="nav-link sidebar-link d-flex align-items-center">
+          <i class="bi bi-calendar-check"></i>
+          <span class="w-100 text-center">Meus Agendamentos</span>
         </a>
       </li>
+
       <li class="nav-item mb-3">
-        <a href="#" class="nav-link sidebar-link">
-          <i class="bi bi-briefcase-fill me-2"></i> Meus Serviços
+        <a href="#" class="nav-link sidebar-link d-flex align-items-center">
+          <i class="bi bi-briefcase-fill"></i>
+          <span class="w-100 text-center">Meus Serviços</span>
         </a>
       </li>
+
       <li class="nav-item mb-3">
-        <a href="#" class="nav-link sidebar-link">
-          <i class="bi bi-gear-fill me-2"></i> Configurações
+        <a href="#" class="nav-link sidebar-link d-flex align-items-center">
+          <i class="bi bi-gear-fill"></i>
+          <span class="w-100 text-center">Configurações</span>
         </a>
       </li>
+
       <li class="nav-item mb-3">
-        <a href="#" class="nav-link sidebar-link">
-          <i class="bi bi-box-arrow-right me-2"></i> Sair
+        <a href="#" class="nav-link sidebar-link d-flex align-items-center">
+          <i class="bi bi-box-arrow-right"></i>
+          <span class="w-100 text-center">Sair</span>
         </a>
       </li>
     </ul>
