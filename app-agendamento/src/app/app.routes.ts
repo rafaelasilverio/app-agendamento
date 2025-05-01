@@ -7,6 +7,7 @@ export const routes: Routes = [
   { path: 'home', loadComponent: () => import('./pages/home/home.component').then(m => m.HomeComponent) },
 
   { path: 'login-in', loadComponent: () => import('./pages/tela-login/tela-login.component').then(m => m.TelaLoginComponent) },
+  { path: 'usuario', loadComponent: () => import('./pages/tela-usuario/tela-usuario.component').then(m => m.TelaUsuarioComponent) },
   { path: 'cadastrar-se', loadComponent: () => import('./pages/tela-cadastro/tela-cadastro.component').then(m => m.TelaCadastroComponent) },
   { path: 'cadastrar-servicos', loadComponent: () => import('./pages/cadastrar-servicos/cadastrar-servicos.component').then(m => m.CadastrarServicosComponent) },
   { path: 'catalogo-servicos', loadComponent: () => import('./pages/catalogo-servicos/catalogo-servicos.component').then(m => m.CatalogoServicosComponent) },
