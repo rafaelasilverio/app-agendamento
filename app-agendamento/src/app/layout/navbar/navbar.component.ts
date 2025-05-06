@@ -11,22 +11,23 @@ import { Router, RouterModule } from '@angular/router';
 export class NavbarComponent {
   constructor(private router: Router) { }
 
+  paginaInicial() {
+    this.router.navigate(['/home']);
+  }
+
+  paginaCatalogoServicos() {
+    this.router.navigate(['/catalogo-servicos']);
+  }
+
+  paginaSobre() {
+    this.router.navigate(['/sobre']);
+  }
+
   paginaLogin() {
     this.router.navigate(['/login-in']);
   }
 
   paginaCadastrarUsuarios() {
     this.router.navigate(['/cadastrar-se']);
-  }
-
-  paginaCadastrarServicos() {
-    this.router.navigate(['/cadastrar-servicos']);
-  }
-
-  paginaCatalogoServicos() {
-    this.router.navigate(['/catalogo-servicos']);
-  }
-  paginaSobre() {
-    this.router.navigate(['/sobre']);
   }
 }
