@@ -8,7 +8,8 @@ export const routes: Routes = [
 
   { path: 'login-in', loadComponent: () => import('./pages/tela-login/tela-login.component').then(m => m.TelaLoginComponent) },
   { path: 'usuario', loadComponent: () => import('./pages/tela-usuario/tela-usuario.component').then(m => m.TelaUsuarioComponent) },
-  { path: 'cadastrar-se', loadComponent: () => import('./pages/tela-cadastro/tela-cadastro.component').then(m => m.TelaCadastroComponent) },
+  { path: 'configuracao-perfil', loadComponent: () => import('./pages/tela-configuracoes-perfil/tela-configuracoes-perfil.component').then(m => m.TelaConfiguracoesPerfilComponent) },
+  { path: 'cadastro', loadComponent: () => import('./pages/tela-cadastro/tela-cadastro.component').then(m => m.TelaCadastroComponent) },
   { path: 'cadastrar-servicos', loadComponent: () => import('./pages/cadastrar-servicos/cadastrar-servicos.component').then(m => m.CadastrarServicosComponent) },
   { path: 'catalogo-servicos', loadComponent: () => import('./pages/catalogo-servicos/catalogo-servicos.component').then(m => m.CatalogoServicosComponent) },
   { path: 'equipe', loadComponent: () => import('./pages/tela-equipe/tela-equipe.component').then(m => m.TelaEquipeComponent) },
