@@ -26,3 +26,9 @@
   max-height: 100%;
   object-fit: cover;
 }
+
+.img-side {
+  max-height: 80vh; /* Limita a altura a no máximo 80% da viewport */
+  width: auto;
+}
+
