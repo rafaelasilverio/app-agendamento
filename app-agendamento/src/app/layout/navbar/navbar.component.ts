@@ -16,18 +16,18 @@ export class NavbarComponent {
   }
 
   paginaCatalogoServicos() {
-    this.router.navigate(['/catalogo-servicos']);
+    this.router.navigate(['/service-catalog']);
   }
 
   paginaSobre() {
-    this.router.navigate(['/sobre']);
+    this.router.navigate(['/about']);
   }
 
   paginaLogin() {
-    this.router.navigate(['/login-in']);
+    this.router.navigate(['/login']);
   }
 
   paginaCadastrarUsuarios() {
-    this.router.navigate(['/cadastrar-se']);
+    this.router.navigate(['/register']);
   }
 }

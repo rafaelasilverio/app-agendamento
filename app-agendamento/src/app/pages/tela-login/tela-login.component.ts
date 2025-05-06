@@ -16,6 +16,6 @@ export class TelaLoginComponent {
 
 
   paginaCadastrarUsuarios() {
-    this.router.navigate(['/cadastrar-se']);
+    this.router.navigate(['/register']);
   }
 }
