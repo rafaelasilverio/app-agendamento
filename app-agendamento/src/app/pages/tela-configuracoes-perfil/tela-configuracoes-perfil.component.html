@@ -1,0 +1,79 @@
+<div class="container my-5">
+  <h2 class="mb-4 text-center">Configurações de Perfil</h2>
+
+  <!-- Formulário de Dados Pessoais -->
+  <form (ngSubmit)="onSave()" class="mb-5">
+    <div class="row g-4">
+      <!-- Coluna: Dados Pessoais -->
+      <div class="col-md-6">
+        <h5 class="mb-3">Dados Pessoais</h5>
+
+        <div class="mb-3">
+          <label for="nome" class="form-label">Nome</label>
+          <input id="nome" type="text" class="form-control" name="nome" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="email" class="form-label">E-mail</label>
+          <input id="email" type="email" class="form-control" name="email" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="telefone" class="form-label">Telefone</label>
+          <input id="telefone" type="text" class="form-control" name="telefone">
+        </div>
+
+        <div class="mb-3">
+          <label for="endereco" class="form-label">Endereço</label>
+          <input id="endereco" type="text" class="form-control" name="endereco">
+        </div>
+      </div>
+
+      <!-- Coluna: Alterar Senha -->
+      <div class="col-md-6">
+        <h5 class="mb-3">Alterar Senha</h5>
+
+        <div class="mb-3">
+          <label for="senhaAtual" class="form-label">Senha Atual</label>
+          <input id="senhaAtual" type="password" class="form-control" name="senhaAtual">
+        </div>
+
+        <div class="mb-3">
+          <label for="novaSenha" class="form-label">Nova Senha</label>
+          <input id="novaSenha" type="password" class="form-control" name="novaSenha">
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center">
+      <button type="submit" class="btn btn-primary mt-4 px-5">Salvar Alterações</button>
+    </div>
+  </form>
+
+  <!-- Seção: Gerenciar Serviços -->
+  <section class="mb-5">
+    <h5 class="mb-4">Meus Serviços</h5>
+
+    <div *ngFor="let servico of usuario.servicos" class="card mb-3 shadow-sm">
+      <div class="card-body d-flex justify-content-between align-items-center">
+        <div>
+          <h6 class="card-title mb-1">{{ servico.titulo }}</h6>
+          <p class="card-text mb-0 text-muted">{{ servico.descricao }}</p>
+        </div>
+        <div>
+          <button class="btn btn-sm btn-warning me-2">Editar</button>
+          <button class="btn btn-sm btn-danger">Deletar</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center">
+      <button class="btn btn-success mt-3 px-4">Adicionar Novo Serviço</button>
+    </div>
+  </section>
+
+  <!-- Seção: Deletar Conta -->
+  <div class="text-center">
+    <button class="btn btn-outline-danger px-4">Deletar Conta</button>
+  </div>
+</div>
