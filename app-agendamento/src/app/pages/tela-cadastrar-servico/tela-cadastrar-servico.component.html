@@ -1,0 +1,118 @@
+<div class="container py-5">
+  <h2 class="text-center mb-4">Cadastrar Serviço</h2>
+
+  <form [formGroup]="formServico" (ngSubmit)="cadastrarServico()" class="mx-auto" style="max-width: 700px;">
+    <!-- Nome do serviço -->
+    <div class="mb-3">
+      <label for="nome" class="form-label">Nome do serviço</label>
+      <input type="text" id="nome" class="form-control" formControlName="nome" placeholder="Digite o nome do serviço">
+    </div>
+
+    <!-- Descrição -->
+    <div class="mb-3">
+      <label for="descricao" class="form-label">Descrição</label>
+      <textarea id="descricao" class="form-control" formControlName="descricao" rows="3"
+        placeholder="Descreva o serviço"></textarea>
+    </div>
+
+    <!-- Categoria -->
+    <div class="mb-3">
+      <label for="categoria" class="form-label">Categoria</label>
+      <input type="text" id="categoria" class="form-control" formControlName="categoria"
+        placeholder="Ex: Encanador, Eletricista">
+    </div>
+
+    <!-- Calendário -->
+    <div class="mb-3">
+      <label for="calendario" class="form-label">Dias de atendimento</label>
+      <input type="text" id="calendario" class="form-control" formControlName="calendario"
+        placeholder="Ex: Seg, Ter, Qua, Qui, Sex">
+    </div>
+
+    <!-- Horário -->
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="horario" class="form-label">Horário de atendimento</label>
+        <input type="text" id="horario" class="form-control" formControlName="horario" placeholder="Ex: 08:00 às 18:00">
+      </div>
+
+      <div class="col-md-6 mb-3">
+        <label for="tempo" class="form-label">Tempo estimado</label>
+        <input type="text" id="tempo" class="form-control" formControlName="tempo" placeholder="Ex: 01:00">
+      </div>
+    </div>
+
+    <!-- Tipo de atendimento -->
+    <div class="mb-3">
+      <label for="tipoAtendimento" class="form-label">Tipo de atendimento</label>
+      <select id="tipoAtendimento" class="form-select" formControlName="tipoAtendimento">
+        <option value="local">Local</option>
+        <option value="domicilio">Domicílio</option>
+      </select>
+    </div>
+
+    <!-- Endereço -->
+    <div class="mb-3">
+      <label for="endereco" class="form-label">Endereço</label>
+      <input type="text" id="endereco" class="form-control" formControlName="endereco"
+        placeholder="Rua, número">
+    </div>
+
+    <div class="row">
+      <div class="col-md-4 mb-3">
+        <label for="cep" class="form-label">CEP</label>
+        <input type="text" id="cep" class="form-control" formControlName="cep" placeholder="00000-000">
+      </div>
+      <div class="col-md-4 mb-3">
+        <label for="bairro" class="form-label">Bairro</label>
+        <input type="text" id="bairro" class="form-control" formControlName="bairro" placeholder="Bairro">
+      </div>
+      <div class="col-md-4 mb-3">
+        <label for="cidade" class="form-label">Cidade</label>
+        <input type="text" id="cidade" class="form-control" formControlName="cidade" placeholder="Cidade">
+      </div>
+    </div>
+
+    <!-- Contato -->
+    <div class="mb-3">
+      <label for="contato" class="form-label">Contato</label>
+      <input type="text" id="contato" class="form-control" formControlName="contato" placeholder="(00) 00000-0000">
+    </div>
+
+    <!-- Preço -->
+    <div class="mb-3">
+      <label for="preco" class="form-label">Preço (R$)</label>
+      <input type="number" id="preco" class="form-control" formControlName="preco" placeholder="Ex: 100.00">
+    </div>
+
+    <!-- Método de pagamento -->
+    <div class="mb-3">
+      <label for="pagamento" class="form-label">Método de pagamento</label>
+      <input type="text" id="pagamento" class="form-control" formControlName="pagamento"
+        placeholder="Pix, Cartão, Dinheiro">
+    </div>
+
+    <!-- Fotos do serviço -->
+    <div class="mb-3">
+      <label for="fotos" class="form-label">Fotos do serviço</label>
+      <input type="file" id="fotos" class="form-control" (change)="onFileChange($event)" multiple>
+
+      <div *ngIf="previewUrls.length > 0" class="mt-3">
+        <p class="small text-muted mb-2">Pré-visualização:</p>
+        <div class="d-flex flex-wrap gap-3">
+          <div *ngFor="let url of previewUrls; let i = index" class="position-relative">
+            <img [src]="url" alt="Prévia" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px;">
+            <button type="button" class="position-absolute top-0 end-0 d-flex justify-content-center align-items-center"
+              style="width: 24px; height: 24px; background-color: #dc3545; color: white; border: none; border-radius: 50%; transform: translate(50%, -50%);"
+              (click)="removerImagem(i)">
+              <span style="font-size: 16px; line-height: 1;">&times;</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Botão -->
+    <button type="submit" class="btn btn-primary w-100">Cadastrar Serviço</button>
+  </form>
+</div>

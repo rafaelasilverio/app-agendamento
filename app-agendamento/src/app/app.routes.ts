@@ -14,6 +14,7 @@ export const routes: Routes = [
   { path: 'about', loadComponent: () => import('./pages/sobre/sobre.component').then(m => m.SobreComponent) },
   { path: 'recover-password', loadComponent: () => import('./pages/tela-recuperacao-senha/tela-recuperacao-senha.component').then(m => m.TelaRecuperacaoSenhaComponent) },
   { path: 'faq', loadComponent: () => import('./pages/tela-faq/tela-faq.component').then(m => m.TelaFaqComponent) },
+  { path: 'register-service', loadComponent: () => import('./pages/tela-cadastrar-servico/tela-cadastrar-servico.component').then(m => m.TelaCadastrarServicoComponent) },
 
   { path: '**', redirectTo: '/home' }
 ];
