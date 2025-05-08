@@ -12,8 +12,16 @@ import { Router } from '@angular/router';
 export class TelaUsuarioComponent {
   constructor(private router: Router) { }
 
-  paginaCadastrarServico() {
-    this.router.navigate(['/register-service']);
+  paginaGerenciarServicos() {
+    this.router.navigate(['/manage-services']);
+  }
+
+  paginaAgendamentos() {
+    this.router.navigate(['/my-schedules']);
+  }
+
+  paginaConfiguracoes() {
+    this.router.navigate(['/profile-settings']);
   }
 
 }

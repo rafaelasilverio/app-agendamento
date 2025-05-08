@@ -14,4 +14,12 @@ export class SidebarComponent {
   paginaMeusAgendamentos() {
     this.router.navigate(['/my-schedules']);
   }
+
+  paginaConfiguracoes() {
+    this.router.navigate(['/profile-settings']);
+  }
+
+  paginaGerenciarServicos() {
+    this.router.navigate(['/manage-services']);
+  }
 }

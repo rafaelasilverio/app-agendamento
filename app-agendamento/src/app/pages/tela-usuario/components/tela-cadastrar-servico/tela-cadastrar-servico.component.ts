@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { SidebarComponent } from '../../../../layout/sidebar/sidebar.component';
 
 @Component({
   selector: 'app-tela-cadastrar-servico',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, SidebarComponent],
   templateUrl: './tela-cadastrar-servico.component.html',
   styleUrl: './tela-cadastrar-servico.component.scss'
 })

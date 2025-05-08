@@ -1,0 +1,71 @@
+<app-sidebar></app-sidebar>
+<div class="container my-5">
+  <h2 class="mb-4 text-center">Configurações de Perfil</h2>
+
+  <form [formGroup]="formPerfil" (ngSubmit)="onSave()" class="mb-5">
+    <div class="row g-4">
+      <!-- Coluna: Dados Pessoais -->
+      <div class="col-md-6">
+        <h5 class="mb-3">Dados Pessoais</h5>
+
+        <div class="mb-3">
+          <label for="nome" class="form-label">Nome</label>
+          <input id="nome" type="text" class="form-control" formControlName="nome" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="email" class="form-label">E-mail</label>
+          <input id="email" type="email" class="form-control" formControlName="email" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="telefone" class="form-label">Telefone</label>
+          <input id="telefone" type="text" class="form-control" formControlName="telefone">
+        </div>
+
+        <div class="mb-3">
+          <label for="endereco" class="form-label">Endereço</label>
+          <input id="endereco" type="text" class="form-control" formControlName="endereco">
+        </div>
+
+        <div class="mb-3">
+          <label for="endereco" class="form-label">Bairro</label>
+          <input id="endereco" type="text" class="form-control" formControlName="bairro">
+        </div>
+
+        <div class="mb-3">
+          <label for="endereco" class="form-label">Cidade</label>
+          <input id="endereco" type="text" class="form-control" formControlName="cidade">
+        </div>
+
+        <div class="mb-3">
+          <label for="endereco" class="form-label">CEP</label>
+          <input id="endereco" type="text" class="form-control" formControlName="cep">
+        </div>
+      </div>
+
+      <!-- Coluna: Alterar Senha -->
+      <div class="col-md-6">
+        <h5 class="mb-3">Alterar Senha</h5>
+
+        <div class="mb-3">
+          <label for="senhaAtual" class="form-label">Senha Atual</label>
+          <input id="senhaAtual" type="password" class="form-control" formControlName="senhaAtual">
+        </div>
+
+        <div class="mb-3">
+          <label for="novaSenha" class="form-label">Nova Senha</label>
+          <input id="novaSenha" type="password" class="form-control" formControlName="novaSenha">
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center">
+      <button type="submit" class="btn btn-primary mt-4 px-5" [disabled]="formPerfil.invalid">Salvar Alterações</button>
+    </div>
+  </form>
+
+  <div class="text-center">
+    <button class="btn btn-outline-danger px-4" (click)="deleteAccount()">Deletar Conta</button>
+  </div>
+</div>

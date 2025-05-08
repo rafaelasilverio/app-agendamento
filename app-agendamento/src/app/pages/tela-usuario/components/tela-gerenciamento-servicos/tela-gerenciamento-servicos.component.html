@@ -1,0 +1,27 @@
+<app-sidebar></app-sidebar>
+<div class="container py-5">
+  <div class="d-flex justify-content-between align-items-center mb-4 w-100">
+    <div class="text-center w-100 position-relative">
+      <h2 class="mb-0">Gerenciar Serviços</h2>
+      <button class="btn btn-primary position-absolute end-0 top-50 translate-middle-y" (click)="cadastrarServico()">
+        Cadastrar Serviço
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="servicos.length > 0; else semServicos">
+    <div class="row g-4">
+      <div *ngFor="let servico of servicos" class="col-md-6 col-lg-4">
+        <app-card-services
+          [servico]="servico"
+          (editar)="editarServico($event)"
+          (deletar)="deletarServico($event)">
+        </app-card-services>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #semServicos>
+    <p class="text-center text-muted mt-5">Nenhum serviço cadastrado ainda.</p>
+  </ng-template>
+</div>
