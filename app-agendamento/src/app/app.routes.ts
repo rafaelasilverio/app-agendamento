@@ -13,6 +13,7 @@ export const routes: Routes = [
   { path: 'team', loadComponent: () => import('./pages/tela-equipe/tela-equipe.component').then(m => m.TelaEquipeComponent) },
   { path: 'about', loadComponent: () => import('./pages/sobre/sobre.component').then(m => m.SobreComponent) },
   { path: 'recover-password', loadComponent: () => import('./pages/tela-recuperacao-senha/tela-recuperacao-senha.component').then(m => m.TelaRecuperacaoSenhaComponent) },
+  { path: 'faq', loadComponent: () => import('./pages/tela-faq/tela-faq.component').then(m => m.TelaFaqComponent) },
 
   { path: '**', redirectTo: '/home' }
 ];
