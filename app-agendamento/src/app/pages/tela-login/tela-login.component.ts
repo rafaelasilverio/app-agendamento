@@ -10,12 +10,13 @@ import { Router } from '@angular/router';
   styleUrls: ['./tela-login.component.scss']
 })
 export class TelaLoginComponent {
-
   constructor(private router: Router) { }
-
-
 
   paginaCadastrarUsuarios() {
     this.router.navigate(['/register']);
+  }
+
+  paginaRecuperacaoSenha() {
+    this.router.navigate(['/recover-password']);
   }
 }

@@ -12,6 +12,7 @@ export const routes: Routes = [
   { path: 'service-catalog', loadComponent: () => import('./pages/catalogo-servicos/catalogo-servicos.component').then(m => m.CatalogoServicosComponent) },
   { path: 'team', loadComponent: () => import('./pages/tela-equipe/tela-equipe.component').then(m => m.TelaEquipeComponent) },
   { path: 'about', loadComponent: () => import('./pages/sobre/sobre.component').then(m => m.SobreComponent) },
+  { path: 'recover-password', loadComponent: () => import('./pages/tela-recuperacao-senha/tela-recuperacao-senha.component').then(m => m.TelaRecuperacaoSenhaComponent) },
 
   { path: '**', redirectTo: '/home' }
 ];
