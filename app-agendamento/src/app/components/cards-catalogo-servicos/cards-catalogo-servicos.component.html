@@ -1,0 +1,12 @@
+<div class="card shadow-sm h-100">
+  <div class="image-container">
+    <img [src]="imagem" alt="Imagem do serviço" />
+  </div>
+  <div class="card-body d-flex flex-column">
+    <h5 class="card-title">{{ titulo }}</h5>
+    <h6 class="card-subtitle mb-2 text-muted">{{ prestador }}</h6>
+    <p class="card-text flex-grow-1">{{ descricao }}</p>
+    <p class="card-text fw-bold">Preço: {{ preco }}</p>
+    <button class="btn btn-primary text-white mt-auto w-100">Agendar Serviço</button>
+  </div>
+</div>
