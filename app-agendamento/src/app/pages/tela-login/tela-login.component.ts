@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-tela-login',
@@ -9,8 +9,23 @@ import { Router } from '@angular/router';
   templateUrl: './tela-login.component.html',
   styleUrls: ['./tela-login.component.scss']
 })
-export class TelaLoginComponent {
-  constructor(private router: Router) { }
+export class TelaLoginComponent implements OnInit {
+  tipoSelecionado: 'CLIENT' | 'PROVIDER' | null = null;
+
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute
+  ) { }
+
+  ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      const tipo = params['tipo'];
+      if (tipo === 'CLIENT' || tipo === 'PROVIDER') {
+        this.tipoSelecionado = tipo;
+        console.log('Tipo selecionado:', tipo);
+      }
+    });
+  }
 
   paginaCadastrarUsuarios() {
     this.router.navigate(['/register']);
