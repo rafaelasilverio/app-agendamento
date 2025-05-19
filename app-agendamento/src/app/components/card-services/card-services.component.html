@@ -1,22 +1,23 @@
 <div class="card shadow-sm h-100">
+  <img *ngIf="servico.imagem" [src]="servico.imagem" class="card-img-top" alt="Imagem do serviço" style="object-fit: cover; height: 180px;">
+
   <div class="card-body">
     <h5 class="card-title">{{ servico.nome }}</h5>
     <p class="text-muted">{{ servico.descricao }}</p>
+
     <p><strong>Categoria:</strong> {{ servico.categoria }}</p>
     <p><strong>Calendário:</strong> {{ servico.calendario }}</p>
     <p><strong>Horário:</strong> {{ servico.horario }}</p>
-    <p><strong>Tempo:</strong> {{ servico.tempo }}</p>
-    <p><strong>Tipo:</strong> {{ servico.tipoAtendimento }}</p>
-    <p><strong>Endereço:</strong> {{ servico.endereco }}, {{ servico.bairro }}, {{ servico.cidade }} - CEP {{
-      servico.cep }}</p>
+    <p><strong>Duração:</strong> {{ servico.tempo }}</p>
+    <p><strong>Tipo de Atendimento:</strong> {{ servico.tipoAtendimento }}</p>
+    <p><strong>Endereço:</strong> {{ servico.endereco }}, {{ servico.bairro }}, {{ servico.cidade }} - CEP {{ servico.cep }}</p>
     <p><strong>Contato:</strong> {{ servico.contato }}</p>
     <p><strong>Preço:</strong> R$ {{ servico.preco }}</p>
-    <p><strong>Pagamento:</strong> {{ servico.pagamento }}</p>
+    <p><strong>Formas de Pagamento:</strong> {{ servico.pagamento }}</p>
 
     <div class="d-flex justify-content-between mt-3">
-      <button class="btn btn-sm btn-outline-primary" (click)="editar.emit(servico.id)">Editar</button>
-      <button class="btn btn-sm btn-outline-danger" (click)="deletar.emit(servico.id)">Excluir</button>
-
+      <button class="btn btn-sm btn-outline-primary" (click)="emitirEdicao()">Editar</button>
+      <button class="btn btn-sm btn-outline-danger" (click)="emitirExclusao()">Excluir</button>
     </div>
   </div>
 </div>

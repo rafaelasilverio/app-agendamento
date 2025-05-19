@@ -12,11 +12,11 @@ export class CardServicesComponent {
   @Output() editar = new EventEmitter<number>();
   @Output() deletar = new EventEmitter<number>();
 
-  onEditar() {
+  emitirEdicao() {
     this.editar.emit(this.servico.id);
   }
 
-  onDeletar() {
+  emitirExclusao() {
     this.deletar.emit(this.servico.id);
   }
 }
