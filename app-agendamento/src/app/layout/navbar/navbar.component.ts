@@ -28,6 +28,6 @@ export class NavbarComponent {
   }
 
   paginaCadastrarUsuarios() {
-    this.router.navigate(['/register']);
+    this.router.navigate(['/register-choice']);
   }
 }
