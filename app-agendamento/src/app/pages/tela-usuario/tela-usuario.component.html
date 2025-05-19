@@ -1,43 +1,45 @@
-
-<app-sidebar></app-sidebar>
-
-<!-- Conteúdo principal -->
-<div class="container-fluid py-5">
-  <div class="container mt-4 d-flex flex-column align-items-center">
-    <h2>Bem-vindo, Nome Usuário!</h2>
+<div class="container d-flex flex-column align-items-center">
+  <div class="caixa-titulo d-flex flex-column align-items-center">
+    <h2>Bem-vindo, {{ nomeUsuario }}</h2>
     <p class="text-muted">Aqui você pode gerenciar seus agendamentos, serviços e configurações.</p>
+  </div>
 
-    <div class="row row-cols-2">
-      <div class="col-md-6 mb-4">
-        <div class="card shadow-sm">
-          <div class="card-body">
-            <h5 class="card-title">Meus Agendamentos</h5>
-            <p class="card-text">Veja seus agendamentos recentes e futuros.</p>
-            <a class="btn btn-primary" (click)="paginaAgendamentos()">Ver Agendamentos</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-6 mb-4">
-        <div class="card shadow-sm">
-          <div class="card-body">
-            <h5 class="card-title">Cadastrar meu serviço</h5>
-            <p class="card-text">Cadastre e gerencie os serviços que você oferece.</p>
-            <a class="btn btn-primary" (click)="paginaGerenciarServicos()">Gerenciar Serviços</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-6 mb-4">
-        <div class="card shadow-sm">
-          <div class="card-body">
-            <h5 class="card-title">Configurações da Conta</h5>
-            <p class="card-text">Atualize seus dados pessoais, endereço e preferências.</p>
-            <a class="btn btn-secondary" (click)="paginaConfiguracoes()">Ir para Configurações</a>
-          </div>
+  <div class="row row-cols-2 mt-6">
+    <div class="col-md-6 mb-4">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Meus Agendamentos</h5>
+          <p class="card-text">Veja seus agendamentos recentes e futuros.</p>
+          <a class="btn btn-primary" (click)="paginaAgendamentos()">Ver Agendamentos</a>
         </div>
       </div>
     </div>
 
+    <div class="col-md-6 mb-4">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Cadastrar meu serviço</h5>
+          <p class="card-text">Cadastre e gerencie os serviços que você oferece.</p>
+          <a class="btn btn-primary"
+            [class.disabled]="isCliente()"
+            [attr.aria-disabled]="isCliente() ? true : null"
+            [style.pointer-events]="isCliente() ? 'none' : 'auto'"
+            (click)="paginaGerenciarServicos()">
+            Gerenciar Serviços
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6 mb-4">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Configurações da Conta</h5>
+          <p class="card-text">Atualize seus dados pessoais, endereço e preferências.</p>
+          <a class="btn btn-secondary" (click)="paginaConfiguracoes()">Ir para Configurações</a>
+        </div>
+      </div>
+    </div>
   </div>
+
 </div>

@@ -1,12 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { SidebarComponent } from '../../../../layout/sidebar/sidebar.component';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-tela-configuracoes-perfil',
   standalone: true,
-  imports: [CommonModule, SidebarComponent, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './tela-configuracoes-perfil.component.html',
   styleUrl: './tela-configuracoes-perfil.component.scss'
 })

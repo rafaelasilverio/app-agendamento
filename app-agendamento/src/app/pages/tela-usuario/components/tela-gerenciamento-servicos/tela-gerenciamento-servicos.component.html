@@ -1,21 +1,19 @@
-<app-sidebar></app-sidebar>
 <div class="container py-5">
-  <div class="d-flex justify-content-between align-items-center mb-4 w-100">
-    <div class="text-center w-100 position-relative">
-      <h2 class="mb-0">Gerenciar Serviços</h2>
-      <button class="btn btn-primary position-absolute end-0 top-50 translate-middle-y" (click)="cadastrarServico()">
-        Cadastrar Serviço
-      </button>
-    </div>
+  <div class="text-center mb-4">
+    <h2 class="mb-2">Gerenciar Serviços</h2>
+    <p class="text-muted">
+      Visualize, edite ou remova seus serviços cadastrados. Aqui você também pode adicionar novos serviços.
+    </p>
+    <button class="btn btn-primary mt-2" (click)="abrirModalCadastro()">Cadastrar Serviço</button>
   </div>
 
-  <div *ngIf="servicos.length > 0; else semServicos">
+  <div *ngIf="listarServicos.length > 0; else semServicos">
     <div class="row g-4">
-      <div *ngFor="let servico of servicos" class="col-md-6 col-lg-4">
+      <div *ngFor="let servico of listarServicos" class="col-md-6 col-lg-4">
         <app-card-services
           [servico]="servico"
-          (editar)="editarServico($event)"
-          (deletar)="deletarServico($event)">
+          (editar)="abrirModalEdicao(servico)"
+          (deletar)="deletarServico(servico.id)">
         </app-card-services>
       </div>
     </div>
@@ -24,4 +22,14 @@
   <ng-template #semServicos>
     <p class="text-center text-muted mt-5">Nenhum serviço cadastrado ainda.</p>
   </ng-template>
+
+  <!-- Modal de gerenciamento de serviços -->
+  <app-modal-gerenciar-servicos
+    [visivel]="visivelModal"
+    [modo]="modo"
+    [servicoSelecionado]="servicoSelecionado"
+    (fechar)="fecharModal()"
+    (cancelar)="cancelarModal()"
+    (salvar)="salvarServico($event)">
+  </app-modal-gerenciar-servicos>
 </div>

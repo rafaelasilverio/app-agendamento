@@ -10,9 +10,9 @@
 
 <!-- Offcanvas Sidebar (lado esquerdo) -->
 <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-  <div class="offcanvas-header justify-content-center position-relative p-0">
-    <h5 class="offcanvas-title text-center w-100 mb-0" id="offcanvasExampleLabel">Perfil</h5>
-    <button type="button" class="btn-close position-end top-0 end-0 m-3" data-bs-dismiss="offcanvas"
+  <div class="offcanvas-header p-3">
+    <h5 class="offcanvas-title w-100 text-center fw-bold fs-5" id="offcanvasExampleLabel">Menu Perfil</h5>
+    <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="offcanvas"
       aria-label="Fechar"></button>
   </div>
 
@@ -21,39 +21,58 @@
     <div class="mb-2 text-center">
       <img src="https://randomuser.me/api/portraits/men/32.jpg" class="rounded-circle" alt="Usuário"
         style="width: 120px; height: 120px;">
-      <p class="mt-2 mb-0 fw-bold">Nome Usuário</p>
-      <small class="text-muted">Cliente</small>
+      <p class="mt-2 mb-0 fw-bold">{{ nomeUsuario }}</p>
+      <small class="text-muted">{{ tipoConta === 'CLIENT' ? 'Cliente' : tipoConta === 'PROVIDER' ? 'Prestador' :
+        'Administrador' }}</small>
     </div>
 
     <!-- Lista de opções -->
-    <ul class="nav flex-column text-center w-100 p-0 mt-3">
-      <li class="nav-item mb-3">
-        <a class="nav-link sidebar-link d-flex align-items-center">
+    <!-- Lista de opções -->
+    <ul class="nav flex-column w-100 px-2 mt-3">
+
+      <li class="nav-item mb-2">
+        <a class="nav-link sidebar-link d-flex align-items-center gap-2" (click)="paginaInicio()">
+          <i class="bi bi-house-door-fill"></i>
+          <span>Início</span>
+        </a>
+      </li>
+
+      <li class="nav-item mb-2">
+        <a class="nav-link sidebar-link d-flex align-items-center gap-2" (click)="paginaMeusAgendamentos()">
           <i class="bi bi-calendar-check"></i>
-          <span class="w-100 text-center" (click)="paginaMeusAgendamentos()">Meus Agendamentos</span>
+          <span>Meus Agendamentos</span>
         </a>
       </li>
 
-      <li class="nav-item mb-3">
-        <a class="nav-link sidebar-link d-flex align-items-center" (click)="paginaGerenciarServicos()">
+      <li class="nav-item mb-2">
+        <a class="nav-link sidebar-link d-flex align-items-center gap-2" (click)="paginaGerenciarServicos()">
           <i class="bi bi-briefcase-fill"></i>
-          <span class="w-100 text-center">Gerenciar Serviços</span>
+          <span>Gerenciar Serviços</span>
         </a>
       </li>
 
-      <li class="nav-item mb-3">
-        <a class="nav-link sidebar-link d-flex align-items-center" (click)="paginaConfiguracoes()">
+      <li class="nav-item mb-2">
+        <a class="nav-link sidebar-link d-flex align-items-center gap-2" (click)="paginaConfiguracoes()">
           <i class="bi bi-gear-fill"></i>
-          <span class="w-100 text-center">Configurações da conta</span>
+          <span>Configurações da conta</span>
         </a>
       </li>
 
-      <li class="nav-item mb-3">
-        <a href="#" class="nav-link sidebar-link d-flex align-items-center">
-          <i class="bi bi-box-arrow-right"></i>
-          <span class="w-100 text-center">Sair</span>
+      <li class="nav-item mb-2" *ngIf="tipoConta === 'CLIENT'">
+        <a class="nav-link sidebar-link d-flex align-items-center gap-2" (click)="paginaCadastrarServico()">
+          <i class="bi bi-person-workspace"></i>
+          <span>Quero prestar serviços</span>
         </a>
       </li>
+
+      <li class="nav-item mb-2">
+        <a class="nav-link sidebar-link d-flex align-items-center gap-2" href="#">
+          <i class="bi bi-box-arrow-right"></i>
+          <span>Sair</span>
+        </a>
+      </li>
+
     </ul>
+
   </div>
 </div>

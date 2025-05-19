@@ -1,16 +1,31 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { SidebarComponent } from '../../layout/sidebar/sidebar.component';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tela-usuario',
-  imports: [CommonModule, SidebarComponent],
+  imports: [CommonModule],
   templateUrl: './tela-usuario.component.html',
   styleUrl: './tela-usuario.component.scss'
 })
-export class TelaUsuarioComponent {
+export class TelaUsuarioComponent implements OnInit {
+  nomeUsuario: string = '';
+  tipoConta: 'CLIENT' | 'PROVIDER' | '' = '';
+
   constructor(private router: Router) { }
+
+  ngOnInit(): void {
+    const usuario = localStorage.getItem('usuario');
+    if(usuario) {
+      const dados = JSON.parse(usuario);
+      this.nomeUsuario = dados.nome;
+      this.tipoConta = dados.role;
+    }
+  }
+
+  isCliente(): boolean {
+    return this.tipoConta === 'CLIENT';
+  }
 
   paginaGerenciarServicos() {
     this.router.navigate(['/manage-services']);
