@@ -1,0 +1,10 @@
+<div class="modal-overlay" *ngIf="visivel">
+  <div class="modal-content bg-white p-4 rounded shadow">
+    <h5 class="mb-3">Cancelar agendamento</h5>
+    <p>Tem certeza que deseja cancelar este agendamento?</p>
+    <div class="d-flex justify-content-end gap-2 mt-3">
+      <button class="btn btn-outline-secondary" (click)="cancelar.emit()">Não</button>
+      <button class="btn btn-danger" (click)="confirmar.emit()">Sim, cancelar</button>
+    </div>
+  </div>
+</div>
