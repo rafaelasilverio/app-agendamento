@@ -1,0 +1,33 @@
+<div class="card h-100 shadow-sm">
+  <div class="image-container">
+    <img [src]="agendamento.imagem" alt="Imagem do serviço" />
+  </div>
+
+  <div class="card-body d-flex flex-column">
+    <h5 class="card-title">{{ agendamento.servico }}</h5>
+    <h6 class="card-subtitle mb-2 text-muted">Prestador: {{ agendamento.prestador }}</h6>
+
+    <p class="card-text flex-grow-1">{{ agendamento.descricao }}</p>
+    <p class="card-text fw-bold">Preço: {{ agendamento.preco }}</p>
+
+    <p class="card-text mb-1">
+      <strong>Data:</strong> {{ agendamento.data | date: 'dd/MM/yyyy' }}<br />
+      <strong>Horário:</strong> {{ agendamento.horario }}
+    </p>
+
+    <span class="badge mb-2 small" [ngClass]="{
+      'bg-warning text-dark': agendamento.status === 'pendente',
+      'bg-success': agendamento.status === 'confirmado',
+      'bg-danger': agendamento.status === 'cancelado'
+    }">
+      {{ agendamento.status | titlecase }}
+    </span>
+
+    <button
+      class="btn btn-outline-danger btn-sm w-100 mt-2"
+      (click)="cancelarAgendamento()"
+    >
+      Cancelar Agendamento
+    </button>
+  </div>
+</div>
