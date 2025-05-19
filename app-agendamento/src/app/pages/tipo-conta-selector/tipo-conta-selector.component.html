@@ -1,0 +1,30 @@
+<div class="container d-flex flex-column align-items-center justify-content-center my-5">
+  <h2 class="mb-5">Como deseja utilizar o Agenday?</h2>
+
+  <div class="d-flex gap-4 flex-wrap justify-content-center align-items-center mt-4">
+    <!-- Card Cliente -->
+    <div
+      class="card tipo-usuario-card shadow-sm"
+      (click)="escolherTipo('CLIENT')"
+    >
+      <div class="card-body text-center">
+        <h5 class="fw-bold">Cliente</h5>
+        <p class="text-muted mb-0">Agende serviços e acompanhe seus compromissos.</p>
+      </div>
+    </div>
+
+    <!-- Separador vertical Bootstrap -->
+    <div class="vr d-none d-md-block mx-2" style="height: 140px;"></div>
+
+    <!-- Card Prestador -->
+    <div
+      class="card tipo-usuario-card shadow-sm"
+      (click)="escolherTipo('PROVIDER')"
+    >
+      <div class="card-body text-center">
+        <h5 class="fw-bold">Prestar Serviços</h5>
+        <p class="text-muted mb-0">Cadastre serviços e gerencie sua agenda.</p>
+      </div>
+    </div>
+  </div>
+</div>

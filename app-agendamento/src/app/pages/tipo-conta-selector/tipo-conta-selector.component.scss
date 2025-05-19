@@ -1,0 +1,18 @@
+.tipo-usuario-card {
+  width: 320px;
+  height: 120px;
+  background-color: #f8f9fa;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    transform: translateY(-4px);
+  }
+
+  .card-body {
+    padding: 1.5rem;
+  }
+}
