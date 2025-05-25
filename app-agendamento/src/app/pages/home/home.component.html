@@ -36,13 +36,13 @@
       <!-- Card 1 -->
       <div class="col-md-6">
         <div class="card h-100 shadow-sm border-0">
-          <div class="overflow-hidden" style="height: 300px;">
+          <div class="overflow-hidden rounded-3" style="height: 300px;">
             <img src="../../../assets/img/tela-principal/pessoa-pesquisando.jpg" alt="Pessoa pesquisando" class="img-fluid w-100 h-100" style="object-fit: cover;">
           </div>
           <div class="card-body">
             <h5 class="card-title">Pesquise e encontre serviços</h5>
-            <p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry...</p>
-            <a href="#" class="btn btn-primary mt-3">Saiba mais</a>
+            <p class="card-text">Busque serviços perto de você e compare opções de profissionais autônomos em diversas áreas.</p>
+            <button class="btn btn-primary mt-3" (click)="irParaEscolhaPerfil()">Saiba mais</button>
           </div>
         </div>
       </div>
@@ -50,13 +50,13 @@
       <!-- Card 2 -->
       <div class="col-md-6">
         <div class="card h-100 shadow-sm border-0">
-          <div class="overflow-hidden" style="height: 300px;">
+          <div class="overflow-hidden rounded-3" style="height: 300px;">
             <img src="../../../assets/img/tela-principal/autonomo.jpg" alt="Profissional autônomo" class="img-fluid w-100 h-100" style="object-fit: cover;">
           </div>
           <div class="card-body">
             <h5 class="card-title">Ofereça seus serviços</h5>
-            <p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry...</p>
-            <a href="#" class="btn btn-primary mt-3">Saiba mais</a>
+            <p class="card-text">Cadastre seus serviços e alcance milhares de pessoas que procuram exatamente o que você faz.</p>
+            <button class="btn btn-primary mt-3" (click)="irParaEscolhaPerfil()">Saiba mais</button>
           </div>
         </div>
       </div>
@@ -64,6 +64,44 @@
     </div>
   </div>
 </div>
+
+  <div class="row mt-5 py-5">
+    <div class="col-12 text-center mb-4">
+      <h2 class="fw-bold">Por que usar o Agenday?</h2>
+      <p class="text-muted">Veja os benefícios de encontrar ou oferecer serviços especializados de forma simples e
+        segura.</p>
+    </div>
+
+    <!-- Cliente -->
+    <div class="col-md-6 mb-4">
+      <div class="card h-100 border-0 shadow-sm">
+        <div class="card-body">
+          <h4 class="card-title">Para quem procura serviços</h4>
+          <ul class="list-unstyled mt-3">
+            <li>✔️ Acesso rápido a profissionais de confiança</li>
+            <li>✔️ Comparação de preços e avaliações</li>
+            <li>✔️ Agendamento online com confirmação instantânea</li>
+            <li>✔️ Segurança na contratação e formas de pagamento variadas</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fornecedor -->
+    <div class="col-md-6 mb-4">
+      <div class="card h-100 border-0 shadow-sm">
+        <div class="card-body">
+          <h4 class="card-title">Para quem oferece serviços</h4>
+          <ul class="list-unstyled mt-3">
+            <li>✔️ Divulgue seus serviços para milhares de usuários</li>
+            <li>✔️ Gerencie seus agendamentos em tempo real</li>
+            <li>✔️ Receba avaliações e aumente sua credibilidade</li>
+            <li>✔️ Expanda seu negócio sem sair de casa</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div class="row align-items-center g-5">
     <div class="col-md-6">
