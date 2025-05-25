@@ -10,14 +10,21 @@
   </div>
 
   <div class="row">
-    <div class="col-md-4 g-4" *ngFor="let servico of servicos">
-      <app-cards-catalogo-servicos
-        [imagem]="servico.imagem"
-        [titulo]="servico.titulo"
-        [descricao]="servico.descricao"
-        [preco]="servico.preco"
-        [prestador]="servico.prestador">
-      </app-cards-catalogo-servicos>
-    </div>
+  <div class="col-md-4 g-4" *ngFor="let servico of servicos">
+    <app-cards-catalogo-servicos
+      [imagem]="servico.imagem"
+      [titulo]="servico.titulo"
+      [descricao]="servico.descricao"
+      [preco]="servico.preco"
+      [prestador]="servico.prestador"
+      [diasDisponiveis]="servico.diasDisponiveis"
+      [cargaHoraria]="servico.cargaHoraria"
+      [duracao]="servico.duracao"
+      [tipoAtendimento]="servico.tipoAtendimento"
+      [local]="servico.local"
+      (agendar)="agendarServico(servico)">
+    </app-cards-catalogo-servicos>
   </div>
+</div>
+
 </div>

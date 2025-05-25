@@ -6,7 +6,14 @@
     <h5 class="card-title">{{ titulo }}</h5>
     <h6 class="card-subtitle mb-2 text-muted">{{ prestador }}</h6>
     <p class="card-text flex-grow-1">{{ descricao }}</p>
-    <p class="card-text fw-bold">Preço: {{ preco }}</p>
-    <button class="btn btn-primary text-white mt-auto w-100">Agendar Serviço</button>
+    <ul class="small text-muted ps-3">
+      <li><strong>Dias disponíveis:</strong> {{ diasDisponiveis }}</li>
+      <li><strong>Carga horária:</strong> {{ cargaHoraria }}</li>
+      <li><strong>Duração:</strong> {{ duracao }}</li>
+      <li><strong>Tipo de atendimento:</strong> {{ tipoAtendimento }}</li>
+      <li><strong>Local:</strong> {{ local }}</li>
+    </ul>
+    <p class="card-text fw-bold mt-2">Preço: {{ preco }}</p>
+    <button class="btn btn-primary text-white mt-auto w-100" (click)="onAgendar()">Agendar Serviço</button>
   </div>
 </div>

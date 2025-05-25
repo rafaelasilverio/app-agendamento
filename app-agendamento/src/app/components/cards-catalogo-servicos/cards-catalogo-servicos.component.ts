@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-cards-catalogo-servicos',
@@ -8,9 +8,20 @@ import { Component, Input } from '@angular/core';
   styleUrl: './cards-catalogo-servicos.component.scss'
 })
 export class CardsCatalogoServicosComponent {
-  @Input() imagem: string = '';
-  @Input() titulo: string = '';
-  @Input() descricao: string = '';
-  @Input() preco: string = '';
-  @Input() prestador: string = '';
+  @Input() imagem = '';
+  @Input() titulo = '';
+  @Input() descricao = '';
+  @Input() preco = '';
+  @Input() prestador = '';
+  @Input() diasDisponiveis = '';
+  @Input() cargaHoraria = '';
+  @Input() duracao = '';
+  @Input() tipoAtendimento = '';
+  @Input() local = '';
+
+  @Output() agendar = new EventEmitter<void>();
+
+  onAgendar() {
+    this.agendar.emit();
+  }
 }

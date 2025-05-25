@@ -7,13 +7,30 @@
     <h5 class="card-title">{{ agendamento.servico }}</h5>
     <h6 class="card-subtitle mb-2 text-muted">Prestador: {{ agendamento.prestador }}</h6>
 
-    <p class="card-text flex-grow-1">{{ agendamento.descricao }}</p>
+    <p class="card-text">{{ agendamento.descricao }}</p>
+
+    <ul class="list-unstyled small text-muted">
+      <li><strong>Dias disponíveis:</strong> {{ agendamento.calendario?.join(', ') }}</li>
+      <li><strong>Horário de atendimento:</strong> {{ agendamento.horarioAtendimento?.inicio }} às {{ agendamento.horarioAtendimento?.fim }}</li>
+      <li><strong>Duração estimada:</strong> {{ agendamento.tempoEstimado }}</li>
+      <li><strong>Tipo de atendimento:</strong> {{ agendamento.tipoAtendimento }}</li>
+      <li><strong>Endereço/local:</strong> {{ agendamento.endereco }}</li>
+      <li><strong>Contato:</strong> {{ agendamento.contato }}</li>
+    </ul>
+
     <p class="card-text fw-bold">Preço: {{ agendamento.preco }}</p>
 
     <p class="card-text mb-1">
       <strong>Data:</strong> {{ agendamento.data | date: 'dd/MM/yyyy' }}<br />
       <strong>Horário:</strong> {{ agendamento.horario }}
     </p>
+
+    <div class="mb-2">
+      <strong>Métodos de Pagamento:</strong>
+      <span *ngFor="let metodo of agendamento.metodosPagamento" class="badge bg-secondary me-1">
+        {{ metodo }}
+      </span>
+    </div>
 
     <span class="badge mb-2 small" [ngClass]="{
       'bg-warning text-dark': agendamento.status === 'pendente',
