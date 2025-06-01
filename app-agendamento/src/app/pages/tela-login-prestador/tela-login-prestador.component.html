@@ -1,39 +1,50 @@
 <div class="d-flex justify-content-center align-items-center min-vh-100 bg-gradiente py-5">
-  <div class="card p-0 shadow-sm d-flex flex-row flex-wrap" style="max-width: 900px; width: 100%; height: 500px; overflow: hidden;">
-
+  <div class="card p-0 shadow-sm d-flex flex-row flex-wrap" style="max-width: 900px; width: 100%; min-height: 500px;">
     <!-- Área da imagem -->
     <div class="d-flex align-items-center justify-content-center flex-grow-1"
-      style="min-width: 300px; max-width: 500px; overflow: hidden; border-top-left-radius: 0.3rem; border-bottom-left-radius: 0.3rem;">
+      style="min-width: 300px; max-width: 450px; overflow: hidden; border-top-left-radius: 0.3rem; border-bottom-left-radius: 0.3rem;">
       <img src="../../../assets/img/login/prestador.jpg" alt="Imagem de Login"
         style="width: 100%; height: 100%; object-fit: cover;">
     </div>
 
     <!-- Área do formulário -->
-    <div class="p-4 d-flex flex-column justify-content-center flex-grow-1"
-      style="min-width: 300px; max-width: 450px; height: 100%;">
+    <div class="p-4 d-flex flex-column justify-content-center flex-grow-1" style="min-width: 300px; max-width: 450px;">
       <h2 class="text-center mb-4">Acesse sua conta</h2>
-      <form class="d-flex flex-column justify-content-center h-100">
+
+      <!-- ✅ Removido 'form' duplicado -->
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <div class="mb-3">
           <label for="email" class="form-label">Endereço de e-mail</label>
-          <input type="email" id="email" class="form-control" placeholder="Digite seu e-mail">
+          <input type="email" id="email" class="form-control" formControlName="email" placeholder="Digite seu e-mail">
+          <div class="text-danger small mt-1"
+            *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
+            <div *ngIf="loginForm.get('email')?.errors?.['required']">O e-mail é obrigatório.</div>
+            <div *ngIf="loginForm.get('email')?.errors?.['email']">Formato de e-mail inválido.</div>
+          </div>
         </div>
         <div class="mb-3">
           <label for="password" class="form-label">Senha</label>
-          <input type="password" id="password" class="form-control" placeholder="Digite sua senha">
+          <input type="password" id="password" class="form-control" formControlName="password"
+            placeholder="Digite sua senha">
+          <div class="text-danger small mt-1"
+            *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
+            <div *ngIf="loginForm.get('password')?.errors?.['required']">A senha é obrigatória.</div>
+          </div>
         </div>
-        <button type="submit" class="btn btn-primary w-100 mb-3">Entrar</button>
+        <div class="text-danger small mb-3" *ngIf="loginForm.errors?.['invalidLogin']">
+          E-mail ou senha incorretos.
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Entrar</button>
 
-        <div class="text-center">
-          <a type="button" class="btn btn-link text-decoration-none mt-0" (click)="paginaRecuperacaoSenha()">Esqueceu sua senha?</a>
+        <div class="text-center mt-3">
+          <a type="button" class="btn btn-link text-decoration-none mt-0" (click)="paginaRecuperacaoSenha()">Esqueceu
+            sua senha?</a> <br>
+          <span class="fw-bold d-flex align-items-center justify-content-center">Não tem uma conta?<button type="button"
+              class="btn btn-link fw-bold text-decoration-none" (click)="paginaCadastrarUsuarios()">Cadastre-se</button>
+          </span>
         </div>
 
-        <div class="text-center mt-2">
-          <span class="fw-bold">Não tem uma conta?</span>
-          <button type="button" class="btn btn-link fw-bold text-decoration-none px-1"
-            (click)="paginaCadastrarUsuarios()">Cadastre-se</button>
-        </div>
-
-        <div class="text-center mt-auto text-muted">
+        <div class="text-center mt-3 text-muted">
           <small>Termos de uso. Política de privacidade</small>
         </div>
       </form>

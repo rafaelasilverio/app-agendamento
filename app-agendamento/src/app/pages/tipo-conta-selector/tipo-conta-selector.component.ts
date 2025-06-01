@@ -14,10 +14,8 @@ export class TipoContaSelectorComponent {
   constructor(private router: Router) { }
 
   escolherTipo(tipo: 'CLIENT' | 'PROVIDER') {
-    if (tipo === 'CLIENT') {
-      this.router.navigate(['/login']);
-    } else if (tipo === 'PROVIDER') {
-      this.router.navigate(['/login-provider']);
-    }
+    localStorage.setItem('tipoConta', tipo);
+    this.router.navigate(['/register']);
   }
+
 }

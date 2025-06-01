@@ -32,11 +32,12 @@
       <div class="col-md-6">
         <label class="form-label">Horário de Atendimento</label>
         <div class="d-flex align-items-center gap-2">
-          <input type="time" class="form-control" [(ngModel)]="horaInicio" name="horaInicio">
+          <input type="time" class="form-control" formControlName="horaInicio">
           <span>às</span>
-          <input type="time" class="form-control" [(ngModel)]="horaFim" name="horaFim">
+          <input type="time" class="form-control" formControlName="horaFim">
         </div>
       </div>
+
 
       <div class="col-md-6">
         <label class="form-label">Duração do serviço</label>

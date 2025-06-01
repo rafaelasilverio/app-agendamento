@@ -53,27 +53,27 @@ export const routes: Routes = [
   {
     path: '',
     loadComponent: () => import('./layout/usuario-layout/usuario-layout.component').then(m => m.UsuarioLayoutComponent),
-    // canActivate: [AuthGuard], // Protege o layout geral
+    canActivate: [AuthGuard], // ✅ ATIVE ISSO
     children: [
       {
         path: 'user',
         loadComponent: () => import('./pages/tela-usuario/tela-usuario.component').then(m => m.TelaUsuarioComponent),
-        // canActivate: [ClienteGuard]
+        canActivate: [AuthGuard] // ✅ Altere de ClienteGuard para AuthGuard
       },
       {
         path: 'profile-settings',
         loadComponent: () => import('./pages/tela-usuario/components/tela-configuracoes-perfil/tela-configuracoes-perfil.component').then(m => m.TelaConfiguracoesPerfilComponent),
-        // canActivate: [AuthGuard] // Qualquer usuário logado
+        canActivate: [AuthGuard]
       },
       {
         path: 'my-schedules',
         loadComponent: () => import('./pages/tela-usuario/components/tela-meus-agendamentos/tela-meus-agendamentos.component').then(m => m.TelaMeusAgendamentosComponent),
-        // canActivate: [ClienteGuard]
+        canActivate: [ClienteGuard]
       },
       {
         path: 'manage-services',
         loadComponent: () => import('./pages/tela-usuario/components/tela-gerenciamento-servicos/tela-gerenciamento-servicos.component').then(m => m.TelaGerenciamentoServicosComponent),
-        // canActivate: [FornecedorGuard]
+        canActivate: [FornecedorGuard]
       }
     ]
   },

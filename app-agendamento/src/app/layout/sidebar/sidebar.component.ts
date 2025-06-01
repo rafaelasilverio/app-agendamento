@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-sidebar',
+  standalone: true,
   imports: [CommonModule],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss'
@@ -11,16 +13,19 @@ import { Router } from '@angular/router';
 export class SidebarComponent implements OnInit {
   tipoConta: 'CLIENT' | 'PROVIDER' | 'ADMIN' = 'CLIENT';
   nomeUsuario: string = '';
+  estaLogado: boolean = false;
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private auth: AuthService
+  ) {}
 
   ngOnInit(): void {
-    const usuario = localStorage.getItem('usuario');
-    if (usuario) {
-      const dados = JSON.parse(usuario);
-      this.tipoConta = dados.role;
-      this.nomeUsuario = dados.nome;
-    }
+    this.auth.usuario$.subscribe(usuario => {
+      this.estaLogado = !!usuario;
+      this.tipoConta = usuario?.role ?? 'CLIENT';
+      this.nomeUsuario = usuario?.name ?? '';
+    });
   }
 
   paginaInicio() {
@@ -41,5 +46,10 @@ export class SidebarComponent implements OnInit {
 
   paginaCadastrarServico() {
     this.router.navigate(['/manage-services']);
+  }
+
+  logout() {
+    this.auth.logout();
+    this.router.navigate(['/home']);
   }
 }

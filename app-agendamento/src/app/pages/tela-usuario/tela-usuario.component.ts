@@ -15,10 +15,10 @@ export class TelaUsuarioComponent implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit(): void {
-    const usuario = localStorage.getItem('usuario');
-    if(usuario) {
+    const usuario = localStorage.getItem('user');
+    if (usuario) {
       const dados = JSON.parse(usuario);
-      this.nomeUsuario = dados.nome;
+      this.nomeUsuario = dados.name;
       this.tipoConta = dados.role;
     }
   }

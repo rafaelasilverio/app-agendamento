@@ -22,7 +22,7 @@
 
               <div class="mb-3">
                 <label for="nome" class="form-label">Nome</label>
-                <input type="text" id="nome" class="form-control" placeholder="Nome completo" formControlName="nome">
+                <input type="text" id="nome" class="form-control" placeholder="Nome completo" formControlName="name">
               </div>
 
               <div class="mb-3">
@@ -35,10 +35,10 @@
               </div>
 
               <div class="mb-3">
-                <label for="senha" class="form-label">Senha</label>
+                <label for="password" class="form-label">Senha</label>
                 <div class="input-group">
-                  <input [type]="mostrarSenha ? 'text' : 'password'" id="senha" class="form-control input-senha"
-                    formControlName="senha">
+                  <input [type]="mostrarSenha ? 'text' : 'password'" id="password" class="form-control input-senha"
+                    formControlName="password">
                   <button class="btn btn-outline-success senha-toggle" type="button" (click)="toggleSenha()">
                     <i class="bi" [ngClass]="mostrarSenha ? 'bi-eye-slash' : 'bi-eye'" role="button"></i>
                   </button>
@@ -46,9 +46,10 @@
               </div>
 
               <div class="mb-4">
-                <label for="telefone" class="form-label">Telefone</label>
-                <input type="tel" id="telefone" class="form-control" formControlName="telefone"
-                  placeholder="(00) 99999-9999">
+                <label for="phone" class="form-label">Telefone</label>
+                <input type="tel" id="phone" class="form-control" formControlName="phone" placeholder="(00) 00000-0000"
+                  mask="(00) 00000-0000" />
+
               </div>
 
               <button type="submit" class="btn btn-primary w-100">Cadastrar-me</button>

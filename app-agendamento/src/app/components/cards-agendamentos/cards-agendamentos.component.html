@@ -10,8 +10,12 @@
     <p class="card-text">{{ agendamento.descricao }}</p>
 
     <ul class="list-unstyled small text-muted">
-      <li><strong>Dias disponíveis:</strong> {{ agendamento.calendario?.join(', ') }}</li>
-      <li><strong>Horário de atendimento:</strong> {{ agendamento.horarioAtendimento?.inicio }} às {{ agendamento.horarioAtendimento?.fim }}</li>
+      <li *ngIf="agendamento.calendario?.length">
+        <strong>Dias disponíveis:</strong> {{ agendamento.calendario.join(', ') }}
+      </li>
+      <li *ngIf="agendamento.horarioAtendimento">
+        <strong>Horário de atendimento:</strong> {{ agendamento.horarioAtendimento.inicio }} às {{ agendamento.horarioAtendimento.fim }}
+      </li>
       <li><strong>Duração estimada:</strong> {{ agendamento.tempoEstimado }}</li>
       <li><strong>Tipo de atendimento:</strong> {{ agendamento.tipoAtendimento }}</li>
       <li><strong>Endereço/local:</strong> {{ agendamento.endereco }}</li>
@@ -25,7 +29,7 @@
       <strong>Horário:</strong> {{ agendamento.horario }}
     </p>
 
-    <div class="mb-2">
+    <div class="mb-2" *ngIf="agendamento.metodosPagamento?.length">
       <strong>Métodos de Pagamento:</strong>
       <span *ngFor="let metodo of agendamento.metodosPagamento" class="badge bg-secondary me-1">
         {{ metodo }}

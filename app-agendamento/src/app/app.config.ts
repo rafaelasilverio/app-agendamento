@@ -6,6 +6,8 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import Aura from '@primeng/themes/aura';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { routes } from './app.routes';
+import { TokenInterceptor } from './auth/token.interceptor';
+import { provideNgxMask } from 'ngx-mask';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -13,15 +15,21 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideAnimationsAsync(),
-    provideHttpClient(),
+    provideHttpClient(
+      withInterceptors([
+        TokenInterceptor
+      ])
+    ),
     providePrimeNG({
       theme: {
-        preset: Aura, options: {
+        preset: Aura,
+        options: {
           prefix: 'p',
           darkModeSelector: 'system',
           cssLayer: false
         }
       }
     }),
+    provideNgxMask(),
   ]
 };
