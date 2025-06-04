@@ -61,7 +61,7 @@ export class TelaCadastroComponent implements OnInit {
         role: tipoConta
       };
 
-      this.apiService.register(dados).subscribe({
+      this.apiService.cadastrarUsuario(dados).subscribe({
         next: () => {
           this.dialog.open(DialogSuccessComponent);
           this.formUsuario.reset();

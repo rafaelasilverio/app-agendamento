@@ -10,24 +10,42 @@ export class ApiService {
 
   constructor(private http: HttpClient) { }
 
-  // Exemplo: GET /services
-  getAllServices() {
+  // Obter todos os serviços disponíveis
+  buscarTodosServicos() {
     return this.http.get(`${this.baseUrl}/services`);
   }
 
-  // Exemplo: POST /services (requer token)
-  createService(data: any, token: string) {
+  // Criar um novo serviço (somente provider)
+  cadastrarServico(dados: any, token: string) {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.post(`${this.baseUrl}/services`, data, { headers });
+    return this.http.post(`${this.baseUrl}/services`, dados, { headers });
   }
 
-  // Exemplo: POST /auth/login
-  login(data: any) {
-    return this.http.post(`${environment.apiUrl}/auth/login`, data);
+  // Editar serviço existente (somente provider)
+  atualizarServico(id: number, dados: any, token: string) {
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.put(`${this.baseUrl}/services/${id}`, dados, { headers });
   }
 
-  // Exemplo: POST /users (cadastro)
-  register(data: any) {
-    return this.http.post(`${environment.apiUrl}/auth/register`, data);
+  // Remover serviço existente (somente provider)
+  removerServico(id: number, token: string) {
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.delete(`${this.baseUrl}/services/${id}`, { headers });
+  }
+
+  // Listar serviços do provider logado
+  buscarMeusServicos(token: string) {
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get(`${this.baseUrl}/services/mine`, { headers });
+  }
+
+  // Login de usuário
+  login(dados: any) {
+    return this.http.post(`${environment.apiUrl}/auth/login`, dados);
+  }
+
+  // Cadastro de usuário
+  cadastrarUsuario(dados: any) {
+    return this.http.post(`${environment.apiUrl}/auth/register`, dados);
   }
 }

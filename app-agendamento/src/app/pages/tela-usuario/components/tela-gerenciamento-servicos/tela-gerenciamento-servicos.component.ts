@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { CardServicesComponent } from '../../../../components/card-services/card-services.component';
 import { ModalGerenciarServicosComponent } from '../modal-gerenciar-servicos/modal-gerenciar-servicos.component';
+import { AuthService } from '../../../../auth/auth.service';
+import { ApiService } from '../../../../../service/api.service';
 
 @Component({
   selector: 'app-tela-gerenciamento-servicos',
@@ -20,45 +22,23 @@ export class TelaGerenciamentoServicosComponent implements OnInit {
   modo: 'criar' | 'editar' = 'criar';
   servicoSelecionado: any = null;
 
+  token: string = '';
+
+  constructor(
+    private api: ApiService,
+    private auth: AuthService
+  ) { }
+
   ngOnInit(): void {
-    this.listarServicos = [
-      {
-        id: 1,
-        nome: 'Serviço A',
-        descricao: 'Manutenção elétrica residencial',
-        categoria: 'Eletricista',
-        preco: 150,
-        pagamento: 'Pix, Cartão',
-        imagem: 'https://via.placeholder.com/150',
-        calendario: 'Seg a Sex',
-        horario: '08:00 - 18:00',
-        tempo: '1h',
-        tipoAtendimento: 'Presencial',
-        endereco: 'Rua das Flores',
-        bairro: 'Centro',
-        cidade: 'São Paulo',
-        cep: '01000-000',
-        contato: '(11) 99999-9999'
-      },
-      {
-        id: 2,
-        nome: 'Serviço B',
-        descricao: 'Desentupimento e manutenção hidráulica',
-        categoria: 'Encanador',
-        preco: 200,
-        pagamento: 'Dinheiro',
-        imagem: 'https://via.placeholder.com/150',
-        calendario: 'Seg a Sáb',
-        horario: '09:00 - 17:00',
-        tempo: '2h',
-        tipoAtendimento: 'Presencial',
-        endereco: 'Av. Brasil',
-        bairro: 'Jardins',
-        cidade: 'São Paulo',
-        cep: '01400-000',
-        contato: '(11) 98888-8888'
-      }
-    ];
+    this.token = localStorage.getItem('token') || '';
+    this.carregarServicos();
+  }
+
+  carregarServicos() {
+    this.api.buscarMeusServicos(this.token).subscribe({
+      next: (res: any) => this.listarServicos = res,
+      error: () => alert('Erro ao carregar seus serviços'),
+    });
   }
 
   abrirModalCadastro(): void {
@@ -81,25 +61,39 @@ export class TelaGerenciamentoServicosComponent implements OnInit {
     this.fecharModal();
   }
 
-  salvarServico(servico: any): void {
+  salvarServico(dados: any): void {
+    const token = localStorage.getItem('token') || '';
     if (this.modo === 'criar') {
-      const novoServico = { ...servico, id: Date.now() };
-      this.listarServicos.push(novoServico);
-      alert('Serviço cadastrado com sucesso!');
-    } else {
-      this.listarServicos = this.listarServicos.map(s =>
-        s.id === this.servicoSelecionado.id ? { ...s, ...servico } : s
-      );
-      alert('Serviço atualizado com sucesso!');
+      this.api.cadastrarServico(dados, token).subscribe({
+        next: () => {
+          this.fecharModal();
+          this.carregarServicos();
+          alert('Serviço cadastrado com sucesso!');
+        },
+        error: () => alert('Erro ao cadastrar serviço'),
+      });
+    } else if (this.servicoSelecionado?.id) {
+      this.api.atualizarServico(this.servicoSelecionado.id, dados, token).subscribe({
+        next: () => {
+          this.fecharModal();
+          this.carregarServicos();
+          alert('Serviço atualizado com sucesso!');
+        },
+        error: () => alert('Erro ao atualizar serviço'),
+      });
     }
-
-    this.fecharModal();
   }
 
+
   deletarServico(id: number): void {
-    const confirmacao = confirm('Tem certeza que deseja remover este serviço?');
-    if (confirmacao) {
-      this.listarServicos = this.listarServicos.filter(s => s.id !== id);
+    if (confirm('Deseja mesmo excluir este serviço?')) {
+      this.api.removerServico(id, this.token).subscribe({
+        next: () => {
+          this.carregarServicos();
+          alert('Serviço excluído!');
+        },
+        error: () => alert('Erro ao excluir serviço'),
+      });
     }
   }
 }

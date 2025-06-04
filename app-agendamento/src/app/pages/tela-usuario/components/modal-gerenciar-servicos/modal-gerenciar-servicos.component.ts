@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ModalComponent } from '../../../../components/modal/modal.component';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 
@@ -31,26 +31,9 @@ export class ModalGerenciarServicosComponent implements OnInit, OnChanges {
   formServico!: FormGroup;
 
   diasSelecionados: string[] = [];
-  diasDaSemana: string[] = [
-    'Domingo',
-    'Segunda',
-    'Terça',
-    'Quarta',
-    'Quinta',
-    'Sexta',
-    'Sábado'
-  ];
-
-  tiposAtendimento: string[] = [
-    'Somente local',
-    'Atendimento à Domicilio',
-    'Atendimento Online'
-  ];
-
+  diasDaSemana: string[] = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+  tiposAtendimento: string[] = ['Somente local', 'Atendimento à Domicilio', 'Atendimento Online'];
   formasPagamento: string[] = ['Pix', 'Cartão de Crédito', 'Dinheiro'];
-
-  horaInicio: string = '';
-  horaFim: string = '';
 
   selectedFiles: File[] = [];
   previewUrls: string[] = [];
@@ -68,35 +51,32 @@ export class ModalGerenciarServicosComponent implements OnInit, OnChanges {
   }
 
   inicializarFormulario(servico: any = null): void {
-    this.diasSelecionados = servico?.calendario?.split(', ') || [];
-
-    if (servico?.horario) {
-      const partes = servico.horario.split(' às ');
-      this.horaInicio = partes[0] || '';
-      this.horaFim = partes[1] || '';
-    } else {
-      this.horaInicio = '';
-      this.horaFim = '';
+    this.diasSelecionados = servico?.availableDays?.split(', ') || [];
+    let horaInicio = '', horaFim = '';
+    if (servico?.dailyHours) {
+      const partes = servico.dailyHours.split(' às ');
+      horaInicio = partes[0] || '';
+      horaFim = partes[1] || '';
     }
 
     this.previewUrls = [];
-
     this.formServico = this.fb.group({
-      nome: [servico?.nome || '', Validators.required],
-      descricao: [servico?.descricao || '', Validators.required],
-      categoria: [servico?.categoria || '', Validators.required],
-      calendario: [this.diasSelecionados.join(', '), Validators.required],
-      horario: ['', Validators.required],
-      tempo: [servico?.tempo || '', Validators.required],
-      tipoAtendimento: [servico?.tipoAtendimento || '', Validators.required],
-      endereco: [servico?.endereco || '', Validators.required],
-      cep: [servico?.cep || '', Validators.required],
-      bairro: [servico?.bairro || '', Validators.required],
-      cidade: [servico?.cidade || '', Validators.required],
-      contato: [servico?.contato || '', Validators.required],
-      preco: [servico?.preco ? this.formatarValorReais(servico.preco) : '', Validators.required],
-      pagamento: [servico?.pagamento || '', Validators.required],
-      imagem: [servico?.imagem || '', Validators.required]
+      name: [servico?.name || ''],
+      description: [servico?.description || ''],
+      category: [servico?.category || ''],
+      availableDays: [this.diasSelecionados.join(', ')],
+      horaInicio: [horaInicio],
+      horaFim: [horaFim],
+      duration: [servico?.duration || ''],
+      attendanceType: [servico?.attendanceType || ''],
+      location: [servico?.location || ''],
+      cep: [servico?.cep || ''],
+      neighborhood: [servico?.neighborhood || ''],
+      city: [servico?.city || ''],
+      contact: [servico?.contact || ''],
+      price: [servico?.price ? this.formatarValorReais(servico.price) : ''],
+      paymentMethod: [servico?.paymentMethod || ''],
+      image: [servico?.image || '']
     });
   }
 
@@ -107,9 +87,8 @@ export class ModalGerenciarServicosComponent implements OnInit, OnChanges {
     } else {
       this.diasSelecionados.push(dia);
     }
-
     this.formServico.patchValue({
-      calendario: this.diasSelecionados.join(', ')
+      availableDays: this.diasSelecionados.join(', ')
     });
   }
 
@@ -126,11 +105,9 @@ export class ModalGerenciarServicosComponent implements OnInit, OnChanges {
 
   onFileChange(event: any): void {
     const files = event.target.files;
-
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
       this.selectedFiles.push(file);
-
       const reader = new FileReader();
       reader.onload = (e: any) => {
         this.previewUrls.push(e.target.result);
@@ -153,30 +130,27 @@ export class ModalGerenciarServicosComponent implements OnInit, OnChanges {
   }
 
   salvarServico(): void {
-    if (!this.horaInicio || !this.horaFim) {
-      alert('Informe os dois horários de atendimento.');
-      return;
-    }
+    const formValues = this.formServico.value;
+    const precoConvertido = parseFloat((formValues.price || '0').toString().replace(/\./g, '').replace(',', '.'));
 
-    const horarioCompleto = `${this.horaInicio} às ${this.horaFim}`;
-    this.formServico.patchValue({ horario: horarioCompleto });
-
-    // Converte string do preço formatado para número
-    const precoBr = this.formServico.value.preco; // ex: "1.234,50"
-    const precoConvertido = parseFloat(precoBr.replace(/\./g, '').replace(',', '.'));
-    this.formServico.patchValue({ preco: precoConvertido });
-
-    if (this.formServico.invalid) {
-      alert('Preencha todos os campos obrigatórios!');
-      return;
-    }
-
-    const dados = {
-      ...this.formServico.value,
-      diasSelecionados: this.diasSelecionados,
-      imagens: this.selectedFiles
+    const payload = {
+      name: formValues.name,
+      description: formValues.description,
+      category: formValues.category,
+      availableDays: this.diasSelecionados.join(', '),
+      dailyHours: `${formValues.horaInicio} às ${formValues.horaFim}`,
+      duration: formValues.duration,
+      attendanceType: formValues.attendanceType,
+      location: formValues.location,
+      cep: formValues.cep,
+      neighborhood: formValues.neighborhood,
+      city: formValues.city,
+      contact: formValues.contact,
+      price: isNaN(precoConvertido) ? 0 : precoConvertido,
+      paymentMethod: formValues.paymentMethod,
+      image: formValues.image
     };
 
-    this.salvar.emit(dados);
+    this.salvar.emit(payload);
   }
 }
