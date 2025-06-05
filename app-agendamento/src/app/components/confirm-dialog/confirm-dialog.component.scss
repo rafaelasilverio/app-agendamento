@@ -1,0 +1,56 @@
+.dialog-container {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  max-width: 350px;
+  margin: 0 auto;
+  color: #000;
+  border: none;
+
+  h4 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  p {
+    font-size: 1rem;
+    margin-bottom: 20px;
+  }
+
+  .dialog-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+
+    button {
+      padding: 6px 20px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+
+      &.confirm {
+        background-color: #2e7d32;
+        color: #fff;
+
+        &:hover {
+          background-color: #1b5e20;
+        }
+      }
+
+      &.cancel {
+        background-color: #c62828;
+        color: #fff;
+
+        &:hover {
+          background-color: #b71c1c;
+        }
+      }
+    }
+  }
+}

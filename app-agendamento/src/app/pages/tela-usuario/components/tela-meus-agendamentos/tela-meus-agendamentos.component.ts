@@ -52,7 +52,6 @@ export class TelaMeusAgendamentosComponent {
       const agendamento = this.agendamentos.find(a => a.id === this.agendamentoSelecionadoId);
       if (agendamento) {
         agendamento.status = 'cancelado';
-        console.log(`Agendamento ${agendamento.id} cancelado`);
       }
     }
     this.fecharModal();

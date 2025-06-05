@@ -41,7 +41,6 @@ export class TelaLoginPrestadorComponent implements OnInit {
       const tipo = params['tipo'];
       if (tipo === 'CLIENT' || tipo === 'PROVIDER') {
         this.tipoSelecionado = tipo;
-        console.log('Tipo selecionado:', tipo);
       }
     });
   }

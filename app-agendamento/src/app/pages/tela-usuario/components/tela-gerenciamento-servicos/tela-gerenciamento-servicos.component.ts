@@ -4,6 +4,9 @@ import { CardServicesComponent } from '../../../../components/card-services/card
 import { ModalGerenciarServicosComponent } from '../modal-gerenciar-servicos/modal-gerenciar-servicos.component';
 import { AuthService } from '../../../../auth/auth.service';
 import { ApiService } from '../../../../../service/api.service';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { DialogSuccessComponent } from '../../../../components/dialog-success/dialog-success.component';
+import { ConfirmDialogComponent } from '../../../../components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-tela-gerenciamento-servicos',
@@ -11,7 +14,9 @@ import { ApiService } from '../../../../../service/api.service';
   imports: [
     CommonModule,
     CardServicesComponent,
-    ModalGerenciarServicosComponent
+    ModalGerenciarServicosComponent,
+    MatDialogModule,
+    ConfirmDialogComponent
   ],
   templateUrl: './tela-gerenciamento-servicos.component.html',
   styleUrl: './tela-gerenciamento-servicos.component.scss'
@@ -26,7 +31,8 @@ export class TelaGerenciamentoServicosComponent implements OnInit {
 
   constructor(
     private api: ApiService,
-    private auth: AuthService
+    private auth: AuthService,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -68,7 +74,7 @@ export class TelaGerenciamentoServicosComponent implements OnInit {
         next: () => {
           this.fecharModal();
           this.carregarServicos();
-          alert('Serviço cadastrado com sucesso!');
+          this.abrirDialogSucesso('Serviço cadastrado com sucesso!');
         },
         error: () => alert('Erro ao cadastrar serviço'),
       });
@@ -77,7 +83,7 @@ export class TelaGerenciamentoServicosComponent implements OnInit {
         next: () => {
           this.fecharModal();
           this.carregarServicos();
-          alert('Serviço atualizado com sucesso!');
+          this.abrirDialogSucesso('Serviço atualizado com sucesso!');
         },
         error: () => alert('Erro ao atualizar serviço'),
       });
@@ -86,14 +92,33 @@ export class TelaGerenciamentoServicosComponent implements OnInit {
 
 
   deletarServico(id: number): void {
-    if (confirm('Deseja mesmo excluir este serviço?')) {
-      this.api.removerServico(id, this.token).subscribe({
-        next: () => {
-          this.carregarServicos();
-          alert('Serviço excluído!');
-        },
-        error: () => alert('Erro ao excluir serviço'),
-      });
-    }
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        titulo: 'Confirmar exclusão',
+        mensagem: 'Deseja mesmo excluir este serviço?',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(confirmado => {
+      if (confirmado) {
+        this.api.removerServico(id, this.token).subscribe({
+          next: () => {
+            this.carregarServicos();
+            this.dialog.open(DialogSuccessComponent, {
+              data: { mensagem: 'Serviço excluído com sucesso!' },
+            });
+          },
+          error: () => alert('Erro ao excluir serviço'),
+        });
+      }
+    });
+  }
+
+
+  abrirDialogSucesso(mensagem: string): void {
+    this.dialog.open(DialogSuccessComponent, {
+      data: { mensagem },
+      panelClass: 'dialog-success'
+    });
   }
 }

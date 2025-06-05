@@ -1,0 +1,23 @@
+.dialog-container {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 20px 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  max-width: 320px;
+  margin: 0 auto;
+  color: #333;
+
+  h4 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 8px;
+  }
+
+  p {
+    font-size: 1rem;
+    margin: 0;
+    color: #444;
+  }
+}

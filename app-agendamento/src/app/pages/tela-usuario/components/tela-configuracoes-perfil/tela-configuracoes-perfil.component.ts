@@ -29,7 +29,6 @@ export class TelaConfiguracoesPerfilComponent implements OnInit {
   }
 
   loadUserData() {
-    console.log('Carregando dados do usuário...');
     // Exemplo fictício:
     this.formPerfil.patchValue({
       nome: 'Usuário Exemplo',
@@ -41,9 +40,7 @@ export class TelaConfiguracoesPerfilComponent implements OnInit {
 
   onSave() {
     if (this.formPerfil.valid) {
-      console.log('Salvando alterações:', this.formPerfil.value);
       alert('Perfil atualizado com sucesso!');
-      // Aqui você chamaria o backend para salvar os dados
     } else {
       alert('Por favor, preencha os campos obrigatórios.');
     }
@@ -51,7 +48,6 @@ export class TelaConfiguracoesPerfilComponent implements OnInit {
 
   deleteAccount() {
     if (confirm('Tem certeza que deseja deletar sua conta?')) {
-      console.log('Deletando conta do usuário...');
       // this.settingsService.deleteAccount().subscribe(() => redirect to login or home);
     }
   }
