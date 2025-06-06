@@ -13,11 +13,27 @@ export class AuthService {
   //Carrega usuário salvo no localStorage
   private carregarUsuarioDoStorage(): any {
     const user = localStorage.getItem('user');
-    return user ? JSON.parse(user) : null;
+    if (!user || user === 'undefined' || user.trim() === '') {
+      return null;
+    }
+    try {
+      return JSON.parse(user);
+    } catch (e) {
+      // Se o valor estiver corrompido, remove do storage e retorna null
+      localStorage.removeItem('user');
+      return null;
+    }
   }
 
   //Executa login e armazena dados localmente
   login(usuario: any, token: string): void {
+    if (!usuario || typeof usuario !== 'object') {
+      // Não salva valores inválidos
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
+      this.usuarioSubject.next(null);
+      return;
+    }
     localStorage.setItem('user', JSON.stringify(usuario));
     localStorage.setItem('token', token);
     this.usuarioSubject.next(usuario);

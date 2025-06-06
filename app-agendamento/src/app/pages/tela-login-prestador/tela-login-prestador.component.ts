@@ -55,8 +55,12 @@ export class TelaLoginPrestadorComponent implements OnInit {
 
     this.api.login(dados).subscribe({
       next: (res: any) => {
+        console.log('Resposta do login:', res);
+        if (!res || !res.user || !res.access_token) {
+          alert('Erro ao fazer login: resposta inválida da API.');
+          return;
+        }
         this.authService.login(res.user, res.access_token);
-
         this.router.navigate(['/user']);
       },
       error: (err) => {

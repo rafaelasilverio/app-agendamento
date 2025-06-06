@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-tela-usuario',
@@ -12,14 +13,13 @@ export class TelaUsuarioComponent implements OnInit {
   nomeUsuario: string = '';
   tipoConta: 'CLIENT' | 'PROVIDER' | '' = '';
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private authService: AuthService) { }
 
   ngOnInit(): void {
-    const usuario = localStorage.getItem('user');
+    const usuario = this.authService.getUsuarioAtual();
     if (usuario) {
-      const dados = JSON.parse(usuario);
-      this.nomeUsuario = dados.name;
-      this.tipoConta = dados.role;
+      this.nomeUsuario = usuario.name;
+      this.tipoConta = usuario.role;
     }
   }
 
