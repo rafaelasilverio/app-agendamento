@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
 import { ClienteGuard } from './guards/cliente.guard';
 import { FornecedorGuard } from './guards/fornecedor.guard';
+import { AgendamentosGuard } from './guards/agendamento.guard';
 
 export const routes: Routes = [
   // Redirecionamento raiz
@@ -66,9 +67,9 @@ export const routes: Routes = [
         canActivate: [AuthGuard]
       },
       {
-        path: 'my-schedules',
+        path: 'user/my-schedules',
         loadComponent: () => import('./pages/tela-usuario/components/tela-meus-agendamentos/tela-meus-agendamentos.component').then(m => m.TelaMeusAgendamentosComponent),
-        canActivate: [ClienteGuard]
+        canActivate: [AgendamentosGuard]
       },
       {
         path: 'manage-services',

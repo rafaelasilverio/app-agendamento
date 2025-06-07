@@ -33,7 +33,7 @@ export class SidebarComponent implements OnInit {
   }
 
   paginaMeusAgendamentos() {
-    this.router.navigate(['/my-schedules']);
+    this.router.navigate(['user/my-schedules']);
   }
 
   paginaConfiguracoes() {

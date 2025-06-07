@@ -32,7 +32,7 @@ export class TelaUsuarioComponent implements OnInit {
   }
 
   paginaAgendamentos() {
-    this.router.navigate(['/my-schedules']);
+    this.router.navigate(['user/my-schedules']);
   }
 
   paginaConfiguracoes() {
