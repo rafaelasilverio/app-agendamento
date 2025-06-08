@@ -1,6 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ApiService } from '../../../../../service/api.service';
+import { AuthService } from '../../../../auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tela-configuracoes-perfil',
@@ -13,7 +16,12 @@ export class TelaConfiguracoesPerfilComponent implements OnInit {
   formPerfil!: FormGroup;
   fotoPreview: string | null = null;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private apiService: ApiService,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.formPerfil = this.fb.group({

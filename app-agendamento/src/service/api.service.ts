@@ -1,7 +1,12 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../environments/environment';
-import { UserProfile } from '../app/pages/tela-usuario/models/user-profile.model';
+// Defina ou importe a interface UserProfile conforme necessário
+export interface UserProfile {
+  id: number;
+  name: string;
+  email: string;
+}
 
 @Injectable({
   providedIn: 'root'
