@@ -2,10 +2,12 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { CardsCatalogoServicosComponent } from '../../components/cards-catalogo-servicos/cards-catalogo-servicos.component';
 import { Router } from '@angular/router';
+import { ServicoDetalhesModalComponent } from '../../components/servico-detalhes-modal/servico-detalhes-modal.component';
 
 @Component({
   selector: 'app-catalogo-servicos',
-  imports: [CommonModule, CardsCatalogoServicosComponent],
+  standalone: true,
+  imports: [CommonModule, CardsCatalogoServicosComponent, ServicoDetalhesModalComponent],
   templateUrl: './catalogo-servicos.component.html',
   styleUrl: './catalogo-servicos.component.scss'
 })
@@ -26,133 +28,52 @@ export class CatalogoServicosComponent implements OnInit {
 
   servicos = [
     {
-      imagem: 'https://via.placeholder.com/600x400',
-      titulo: 'Consultoria de Marketing',
-      descricao: 'Ajudamos a expandir o seu negócio com estratégias modernas e eficientes.',
-      preco: 'R$ 200,00',
-      prestador: 'Agência XYZ',
-      diasDisponiveis: 'Segunda a Sexta',
-      cargaHoraria: '4h/dia',
-      duracao: '1 semana',
-      tipoAtendimento: 'Online',
-      local: 'Remoto'
+      image: 'https://via.placeholder.com/600x400',
+      name: 'Consultoria de Marketing',
+      description: 'Ajudamos a expandir o seu negócio…',
+      price: '200',            // sem “R$”, só número
+      provider: 'Agência XYZ',
+      availableDays: 'Segunda a Sexta',
+      dailyHours: '4h/dia',
+      duration: '1 semana',
+      attendanceType: 'Online',
+      location: 'Remoto'
     },
-    {
-      imagem: 'https://via.placeholder.com/600x400',
-      titulo: 'Manutenção de Computadores',
-      descricao: 'Serviço especializado em manutenção, upgrades e suporte técnico.',
-      preco: 'R$ 150,00',
-      prestador: 'Carlos Técnico',
-      diasDisponiveis: 'Segunda a Sábado',
-      cargaHoraria: '6h/dia',
-      duracao: 'Sob demanda',
-      tipoAtendimento: 'Presencial',
-      local: 'A domicílio'
-    },
-    {
-      imagem: 'https://via.placeholder.com/600x400',
-      titulo: 'Design Gráfico',
-      descricao: 'Criação de logos, banners, material publicitário e identidade visual.',
-      preco: 'R$ 180,00',
-      prestador: 'Estúdio Criativo',
-      diasDisponiveis: 'Todos os dias',
-      cargaHoraria: 'Variável',
-      duracao: 'Por projeto',
-      tipoAtendimento: 'Online',
-      local: 'Remoto'
-    },
-    {
-      imagem: 'https://via.placeholder.com/600x400',
-      titulo: 'Aulas de Inglês Online',
-      descricao: 'Aprenda inglês com professores qualificados sem sair de casa.',
-      preco: 'R$ 80,00/hora',
-      prestador: 'Teacher Ana',
-      diasDisponiveis: 'Segunda a Sexta',
-      cargaHoraria: '1h/sessão',
-      duracao: '3 meses',
-      tipoAtendimento: 'Online',
-      local: 'Remoto'
-    },
-    {
-      imagem: 'https://via.placeholder.com/600x400',
-      titulo: 'Serviços de Pintura',
-      descricao: 'Pintura residencial e comercial com acabamento profissional.',
-      preco: 'R$ 300,00',
-      prestador: 'João Pintor',
-      diasDisponiveis: 'Segunda a Sábado',
-      cargaHoraria: '8h/dia',
-      duracao: '2 dias',
-      tipoAtendimento: 'Presencial',
-      local: 'A domicílio'
-    },
-    {
-      imagem: 'https://via.placeholder.com/600x400',
-      titulo: 'Instalação de Antenas',
-      descricao: 'Instalação de antenas parabólicas e digitais com equipamentos inclusos.',
-      preco: 'R$ 250,00',
-      prestador: 'Tech Antenas',
-      diasDisponiveis: 'Segunda a Sexta',
-      cargaHoraria: '3h',
-      duracao: '1 dia',
-      tipoAtendimento: 'Presencial',
-      local: 'A domicílio'
-    },
-    {
-      imagem: 'https://via.placeholder.com/600x400',
-      titulo: 'Diarista Profissional',
-      descricao: 'Limpeza completa residencial ou comercial com responsabilidade.',
-      preco: 'R$ 120,00/dia',
-      prestador: 'Maria Diarista',
-      diasDisponiveis: 'Terça a Sábado',
-      cargaHoraria: '8h/dia',
-      duracao: '1 dia',
-      tipoAtendimento: 'Presencial',
-      local: 'A domicílio'
-    },
-    {
-      imagem: 'https://via.placeholder.com/600x400',
-      titulo: 'Consultoria Financeira',
-      descricao: 'Organize suas finanças pessoais ou empresariais com especialistas.',
-      preco: 'R$ 220,00',
-      prestador: 'Contas em Dia',
-      diasDisponiveis: 'Segunda a Sexta',
-      cargaHoraria: '1h/sessão',
-      duracao: '1 mês',
-      tipoAtendimento: 'Online',
-      local: 'Remoto'
-    }
   ];
 
   agendarServico(servico: any) {
     const user = localStorage.getItem('user');
-
-    if (user) {
-      this.router.navigate(['/my-schedules'], {
+    if (!user) {
+      // usuário não logado
+      this.router.navigate(['/register-choice']);
+    } else {
+      // já existe usuário → mantém a navegação que salva no estado
+      this.router.navigate(['/user/my-schedules'], {
         state: {
           servico: {
-            id: 0,
-            servico: servico.titulo,
-            descricao: servico.descricao,
-            imagem: servico.imagem,
-            preco: servico.preco,
-            prestador: servico.prestador,
-            data: new Date().toISOString(),
-            horario: '09:00',
-            status: 'pendente',
-            categoria: 'Serviço',
-            calendario: servico.diasDisponiveis?.split(',') ?? [],
-            horarioAtendimento: { inicio: '09:00', fim: '17:00' },
-            tempoEstimado: servico.duracao ?? '',
-            tipoAtendimento: servico.tipoAtendimento ?? '',
-            endereco: servico.local ?? '',
-            contato: 'contato@fornecedor.com',
-            metodosPagamento: ['Pix', 'Cartão']
+            serviceId: servico.id,     // se existir id
+            title: servico.name,
+            description: servico.description,
+            date: new Date().toISOString(),
+            // ... demais campos mapeados em inglês
           }
         }
       });
-    } else {
-      this.router.navigate(['/register-choice']);
     }
+
   }
+
+  selectedServico: any = null;
+  modalVisivel = false;
+
+  openModal(servico: any) {
+    this.selectedServico = servico;
+    this.modalVisivel = true;
+  }
+  closeModal() {
+    this.selectedServico = null;
+    this.modalVisivel = false;
+  }
+
 
 }

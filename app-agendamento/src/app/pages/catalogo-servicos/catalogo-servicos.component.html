@@ -10,21 +10,27 @@
   </div>
 
   <div class="row">
-  <div class="col-md-4 g-4" *ngFor="let servico of servicos">
-    <app-cards-catalogo-servicos
-      [imagem]="servico.imagem"
-      [titulo]="servico.titulo"
-      [descricao]="servico.descricao"
-      [preco]="servico.preco"
-      [prestador]="servico.prestador"
-      [diasDisponiveis]="servico.diasDisponiveis"
-      [cargaHoraria]="servico.cargaHoraria"
-      [duracao]="servico.duracao"
-      [tipoAtendimento]="servico.tipoAtendimento"
-      [local]="servico.local"
-      (agendar)="agendarServico(servico)">
-    </app-cards-catalogo-servicos>
-  </div>
-</div>
+    <div class="col-md-4 g-4" *ngFor="let servico of servicos">
+      <div class="service-card" (click)="openModal(servico)">
+        <app-cards-catalogo-servicos
+          [image]="servico.image"
+          [name]="servico.name"
+          [description]="servico.description"
+          [price]="servico.price"
+          [provider]="servico.provider"
+          [availableDays]="servico.availableDays"
+          [dailyHours]="servico.dailyHours"
+          [duration]="servico.duration"
+          [attendanceType]="servico.attendanceType"
+          [location]="servico.location"
+          (agendar)="agendarServico(servico)">
+        </app-cards-catalogo-servicos>
+      </div>
+    </div>
 
+    <app-servico-detalhes-modal *ngIf="modalVisivel"
+      [servico]="selectedServico" (close)="closeModal()"
+      (agendar)="agendarServico(selectedServico)">
+    </app-servico-detalhes-modal>
+  </div>
 </div>

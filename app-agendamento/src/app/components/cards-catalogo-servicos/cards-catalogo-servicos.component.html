@@ -1,19 +1,25 @@
-<div class="card shadow-sm h-100">
+<!-- src/app/components/cards-catalogo-servicos/cards-catalogo-servicos.component.html -->
+<div class="card h-100 shadow-sm service-card">
   <div class="image-container">
-    <img [src]="imagem" alt="Imagem do serviço" />
+    <img [src]="image" alt="Imagem do serviço" />
   </div>
+
   <div class="card-body d-flex flex-column">
-    <h5 class="card-title">{{ titulo }}</h5>
-    <h6 class="card-subtitle mb-2 text-muted">{{ prestador }}</h6>
-    <p class="card-text flex-grow-1">{{ descricao }}</p>
-    <ul class="small text-muted ps-3">
-      <li><strong>Dias disponíveis:</strong> {{ diasDisponiveis }}</li>
-      <li><strong>Carga horária:</strong> {{ cargaHoraria }}</li>
-      <li><strong>Duração:</strong> {{ duracao }}</li>
-      <li><strong>Tipo de atendimento:</strong> {{ tipoAtendimento }}</li>
-      <li><strong>Local:</strong> {{ local }}</li>
+    <h5 class="card-title">{{ name }}</h5>
+    <h6 class="card-subtitle mb-2 text-muted">{{ provider }}</h6>
+
+    <p class="card-text flex-grow-1">{{ description }}</p>
+
+    <ul class="list-unstyled small text-muted mb-3">
+      <li><strong>Dias disponíveis:</strong> {{ availableDays }}</li>
+      <li><strong>Carga horária:</strong> {{ dailyHours }}</li>
+      <li><strong>Duração:</strong> {{ duration }}</li>
+      <li><strong>Tipo de atendimento:</strong> {{ attendanceType }}</li>
+      <li><strong>Local:</strong> {{ location }}</li>
     </ul>
-    <p class="card-text fw-bold mt-2">Preço: {{ preco }}</p>
-    <button class="btn btn-primary text-white mt-auto w-100" (click)="onAgendar()">Agendar Serviço</button>
+
+    <p class="card-text fw-bold mt-auto">Preço: R$ {{ price }}</p>
+
+    <button class="btn btn-primary mt-3" (click)="agendar.emit()">Agendar Serviço</button>
   </div>
 </div>

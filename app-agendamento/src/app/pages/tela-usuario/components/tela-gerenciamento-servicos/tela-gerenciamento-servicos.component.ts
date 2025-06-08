@@ -15,9 +15,8 @@ import { ConfirmDialogComponent } from '../../../../components/confirm-dialog/co
     CommonModule,
     CardServicesComponent,
     ModalGerenciarServicosComponent,
-    MatDialogModule,
-    ConfirmDialogComponent
-  ],
+    MatDialogModule
+],
   templateUrl: './tela-gerenciamento-servicos.component.html',
   styleUrl: './tela-gerenciamento-servicos.component.scss'
 })

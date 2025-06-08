@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router, Navigation } from '@angular/router';
 import { CardsAgendamentosComponent } from '../../../../components/cards-agendamentos/cards-agendamentos.component';
 import { ModalCancelarAgendamentoComponent } from './modal-cancelar-agendamento/modal-cancelar-agendamento.component';
 import { Agendamento } from './models/agendamento.model';
@@ -7,11 +8,15 @@ import { Agendamento } from './models/agendamento.model';
 @Component({
   selector: 'app-tela-meus-agendamentos',
   standalone: true,
-  imports: [CommonModule, CardsAgendamentosComponent, ModalCancelarAgendamentoComponent],
+  imports: [
+    CommonModule,
+    CardsAgendamentosComponent,
+    ModalCancelarAgendamentoComponent
+  ],
   templateUrl: './tela-meus-agendamentos.component.html',
-  styleUrl: './tela-meus-agendamentos.component.scss'
+  styleUrls: ['./tela-meus-agendamentos.component.scss']
 })
-export class TelaMeusAgendamentosComponent {
+export class TelaMeusAgendamentosComponent implements OnInit {
   modalVisivel = false;
   agendamentoSelecionadoId: number | null = null;
 
@@ -35,7 +40,43 @@ export class TelaMeusAgendamentosComponent {
       contato: '(14) 99876-5432',
       metodosPagamento: ['Pix', 'Cartão', 'Dinheiro']
     }
-  ]
+  ];
+
+  constructor(private router: Router) {
+    this.processarStateDeNavegacao();
+  }
+
+  ngOnInit(): void {
+    // Mantido vazio ou para outras inicializações futuras
+  }
+
+  private processarStateDeNavegacao(): void {
+    // Pega a navegação corrente e extrai o state safely
+    const nav: Navigation | null = this.router.getCurrentNavigation();
+    const state = nav?.extras.state as { servico?: any } | undefined;
+    const novo = state?.servico;
+    if (!novo) return;
+
+    this.agendamentos.push({
+      id: Date.now(),
+      servico: novo.title,
+      prestador: novo.provider,
+      data: novo.date,
+      horario: novo.date.substring(11, 16),
+      status: 'pendente',
+      descricao: novo.description,
+      imagem: novo.image,
+      preco: `R$ ${novo.price}`,
+      categoria: novo.category ?? '',
+      calendario: [novo.availableDays],
+      horarioAtendimento: { inicio: novo.dailyHours, fim: novo.dailyHours },
+      tempoEstimado: novo.duration,
+      tipoAtendimento: novo.attendanceType,
+      endereco: novo.location,
+      contato: novo.contact ?? '',
+      metodosPagamento: novo.paymentMethod ?? []
+    });
+  }
 
   onCancelarAgendamento(id: number): void {
     this.modalVisivel = true;
@@ -49,10 +90,8 @@ export class TelaMeusAgendamentosComponent {
 
   confirmarCancelamento(): void {
     if (this.agendamentoSelecionadoId !== null) {
-      const agendamento = this.agendamentos.find(a => a.id === this.agendamentoSelecionadoId);
-      if (agendamento) {
-        agendamento.status = 'cancelado';
-      }
+      const ag = this.agendamentos.find(a => a.id === this.agendamentoSelecionadoId);
+      if (ag) ag.status = 'cancelado';
     }
     this.fecharModal();
   }

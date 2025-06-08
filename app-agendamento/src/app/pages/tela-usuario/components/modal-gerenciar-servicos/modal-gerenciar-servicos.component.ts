@@ -12,9 +12,8 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
     ReactiveFormsModule,
     FormsModule,
     ModalComponent,
-    NgxMaskDirective,
-    NgxMaskPipe
-  ],
+    NgxMaskDirective
+],
   providers: [provideNgxMask()],
   templateUrl: './modal-gerenciar-servicos.component.html',
   styleUrl: './modal-gerenciar-servicos.component.scss'

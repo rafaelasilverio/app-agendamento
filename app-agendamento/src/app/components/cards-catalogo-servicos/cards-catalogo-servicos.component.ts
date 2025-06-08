@@ -3,25 +3,22 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-cards-catalogo-servicos',
+  standalone: true,
   imports: [CommonModule],
   templateUrl: './cards-catalogo-servicos.component.html',
   styleUrl: './cards-catalogo-servicos.component.scss'
 })
 export class CardsCatalogoServicosComponent {
-  @Input() imagem = '';
-  @Input() titulo = '';
-  @Input() descricao = '';
-  @Input() preco = '';
-  @Input() prestador = '';
-  @Input() diasDisponiveis = '';
-  @Input() cargaHoraria = '';
-  @Input() duracao = '';
-  @Input() tipoAtendimento = '';
-  @Input() local = '';
+  @Input() image!: string;
+  @Input() name!: string;
+  @Input() description!: string;
+  @Input() price!: string;
+  @Input() provider!: string;
+  @Input() availableDays!: string;
+  @Input() dailyHours!: string;
+  @Input() duration!: string;
+  @Input() attendanceType!: string;
+  @Input() location!: string;
 
   @Output() agendar = new EventEmitter<void>();
-
-  onAgendar() {
-    this.agendar.emit();
-  }
 }
