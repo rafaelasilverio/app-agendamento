@@ -1,0 +1,42 @@
+<div class="modal-backdrop">
+  <div class="modal-content">
+    <button class="btn-close" (click)="onClose()">&times;</button>
+
+    <h4 class="modal-title text-center mb-3">{{ servico.name }}</h4>
+
+    <div id="carouselServico" class="carousel slide mb-4" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <div *ngFor="let img of (servico.images ?? [servico.image]) | slice:0:3; let i = index" class="carousel-item"
+          [class.active]="i === 0">
+          <img [src]="img" class="d-block w-100 carousel-img" alt="Imagem do serviço">
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselServico" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+        <span class="visually-hidden">Anterior</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselServico" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+        <span class="visually-hidden">Próximo</span>
+      </button>
+    </div>
+
+    <div class="servico-details mb-4">
+      <p class="lead">{{ servico.description }}</p>
+      <ul class="list-unstyled">
+        <li><strong>Categoria:</strong> {{ servico.category }}</li>
+        <li><strong>Dias disponíveis:</strong> {{ servico.availableDays }}</li>
+        <li><strong>Horário:</strong> {{ servico.dailyHours }}</li>
+        <li><strong>Duração:</strong> {{ servico.duration }}</li>
+        <li><strong>Tipo de atendimento:</strong> {{ servico.attendanceType }}</li>
+        <li><strong>Local:</strong> {{ servico.location }}</li>
+        <li><strong>Preço:</strong> R$ {{ servico.price }}</li>
+      </ul>
+    </div>
+
+    <div class="d-flex justify-content-end gap-2">
+      <button class="btn btn-secondary" (click)="onClose()">Fechar</button>
+      <button class="btn btn-primary" (click)="onAgendar()">Agendar Serviço</button>
+    </div>
+  </div>
+</div>
