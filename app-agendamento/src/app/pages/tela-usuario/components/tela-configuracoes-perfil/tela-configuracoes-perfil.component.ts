@@ -4,6 +4,9 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ApiService } from '../../../../../service/api.service';
 import { AuthService } from '../../../../auth/auth.service';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogSuccessComponent } from '../../../../components/dialog-success/dialog-success.component';
+import { ConfirmDialogComponent } from '../../../../components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-tela-configuracoes-perfil',
@@ -20,50 +23,83 @@ export class TelaConfiguracoesPerfilComponent implements OnInit {
     private fb: FormBuilder,
     private apiService: ApiService,
     private authService: AuthService,
-    private router: Router
-  ) {}
+    private router: Router,
+    private dialog: MatDialog,
+  ) { }
 
   ngOnInit() {
-    this.formPerfil = this.fb.group({
-      nome: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      telefone: [''],
-      endereco: [''],
-      senhaAtual: [''],
-      novaSenha: ['']
-    });
-
+    this.inicializarFormularioPerfil();
     this.loadUserData();
   }
 
+  private inicializarFormularioPerfil(): void {
+    this.formPerfil = this.fb.group({
+      name: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      phone: [''],
+      currentPassword: [''],
+      newPassword: ['']
+    });
+  }
+
   loadUserData() {
-    // Exemplo fictício:
-    this.formPerfil.patchValue({
-      nome: 'Usuário Exemplo',
-      email: 'usuario@exemplo.com',
-      telefone: '(11) 99999-9999',
-      endereco: 'Rua Exemplo, 123'
+    const token = localStorage.getItem('token')!;
+    this.apiService.obterPerfil(token).subscribe({
+      next: profile => {
+        this.formPerfil.patchValue({
+          name: profile.name,
+          email: profile.email,
+          phone: profile.phone
+        });
+      },
+      error: () => alert('Erro ao carregar dados do perfil.')
     });
   }
 
   onSave() {
-    if (this.formPerfil.valid) {
-      alert('Perfil atualizado com sucesso!');
-    } else {
-      alert('Por favor, preencha os campos obrigatórios.');
-    }
+    if (this.formPerfil.invalid) return;
+
+    const token = localStorage.getItem('token')!;
+    this.apiService.atualizarPerfil(this.formPerfil.value, token).subscribe({
+      next: () => {
+        this.dialog.open(DialogSuccessComponent, {
+          data: { mensagem: 'Perfil atualizado com sucesso!' }
+        });
+      },
+      error: () => alert('Erro ao atualizar perfil.')
+    });
   }
 
   deleteAccount() {
-    if (confirm('Tem certeza que deseja deletar sua conta?')) {
-      const token = localStorage.getItem('token');
-      this.apiService.deletarConta(token!).subscribe({
+    const ref = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        titulo: 'Confirmar exclusão',
+        mensagem: 'Tem certeza que deseja excluir sua conta?'
+      }
+    });
+
+    ref.afterClosed().subscribe(confirmed => {
+      if (!confirmed) return;
+
+      const token = localStorage.getItem('token')!;
+      this.apiService.deletarConta(token).subscribe({
         next: () => {
+          // 1) desloga AGORA e limpa o header
           this.authService.logout();
-          this.router.navigate(['/login']);
+
+          // 2) abre diálogo de sucesso (com header já limpo)
+          const successRef = this.dialog.open(DialogSuccessComponent, {
+            data: { mensagem: 'Conta excluída com sucesso!' }
+          });
+
+          // 3) quando o diálogo fechar, navega pra rota pública:
+          successRef.afterClosed().subscribe(() => {
+            this.router.navigate(['/home']); // ou '/login', como preferir
+          });
         },
         error: () => alert('Erro ao excluir conta.')
       });
-    }
+    });
   }
+
 }

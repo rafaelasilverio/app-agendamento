@@ -3,13 +3,12 @@
 
   <form [formGroup]="formPerfil" (ngSubmit)="onSave()" class="mb-5">
     <div class="row g-4">
-      <!-- Coluna: Dados Pessoais -->
       <div class="col-md-6">
         <h5 class="mb-3">Dados Pessoais</h5>
 
         <div class="mb-3">
-          <label for="nome" class="form-label">Nome</label>
-          <input id="nome" type="text" class="form-control" formControlName="nome" required>
+          <label for="name" class="form-label">Nome</label>
+          <input id="name" type="text" class="form-control" formControlName="name" required>
         </div>
 
         <div class="mb-3">
@@ -18,8 +17,8 @@
         </div>
 
         <div class="mb-3">
-          <label for="telefone" class="form-label">Telefone</label>
-          <input id="telefone" type="text" class="form-control" formControlName="telefone">
+          <label for="phone" class="form-label">Telefone</label>
+          <input id="phone" type="text" class="form-control" formControlName="phone">
         </div>
       </div>
 
@@ -28,13 +27,13 @@
         <h5 class="mb-3">Alterar Senha</h5>
 
         <div class="mb-3">
-          <label for="senhaAtual" class="form-label">Senha Atual</label>
-          <input id="senhaAtual" type="password" class="form-control" formControlName="senhaAtual">
+          <label for="currentPassword" class="form-label">Senha Atual</label>
+          <input id="currentPassword" type="password" class="form-control" formControlName="currentPassword">
         </div>
 
         <div class="mb-3">
-          <label for="novaSenha" class="form-label">Nova Senha</label>
-          <input id="novaSenha" type="password" class="form-control" formControlName="novaSenha">
+          <label for="newPassword" class="form-label">Nova Senha</label>
+          <input id="newPassword" type="password" class="form-control" formControlName="newPassword">
         </div>
       </div>
     </div>
