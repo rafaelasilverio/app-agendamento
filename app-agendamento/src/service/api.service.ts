@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../environments/environment';
+import { Observable } from 'rxjs';
 // Defina ou importe a interface UserProfile conforme necessário
 export interface UserProfile {
   id: number;
@@ -18,8 +19,8 @@ export class ApiService {
   constructor(private http: HttpClient) { }
 
   // Obter todos os serviços disponíveis
-  buscarTodosServicos() {
-    return this.http.get(`${this.baseUrl}/services`);
+  buscarTodosServicos(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/services`);
   }
 
   // Criar um novo serviço (somente provider)
