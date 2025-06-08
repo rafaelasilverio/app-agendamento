@@ -48,7 +48,14 @@ export class TelaConfiguracoesPerfilComponent implements OnInit {
 
   deleteAccount() {
     if (confirm('Tem certeza que deseja deletar sua conta?')) {
-      // this.settingsService.deleteAccount().subscribe(() => redirect to login or home);
+      const token = localStorage.getItem('token');
+      this.apiService.deletarConta(token!).subscribe({
+        next: () => {
+          this.authService.logout();
+          this.router.navigate(['/login']);
+        },
+        error: () => alert('Erro ao excluir conta.')
+      });
     }
   }
 }

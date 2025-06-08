@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../environments/environment';
+import { UserProfile } from '../app/pages/tela-usuario/models/user-profile.model';
 
 @Injectable({
   providedIn: 'root'
@@ -47,5 +48,23 @@ export class ApiService {
   // Cadastro de usuário
   cadastrarUsuario(dados: any) {
     return this.http.post(`${environment.apiUrl}/auth/register`, dados);
+  }
+
+  // Obter dados do usuário autenticado
+  obterPerfil(token: string) {
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<UserProfile>(`${this.baseUrl}/users/profile`, { headers });
+  }
+
+  // Atualizar dados do usuário (incluindo senha se necessário)
+  atualizarPerfil(dados: any, token: string) {
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.put(`${this.baseUrl}/users/profile`, dados, { headers });
+  }
+
+  //Deletar conta do usuário
+  deletarConta(token: string) {
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.delete(`${this.baseUrl}/users/profile`, { headers });
   }
 }
