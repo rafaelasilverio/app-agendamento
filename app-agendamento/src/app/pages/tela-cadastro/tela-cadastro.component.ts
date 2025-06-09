@@ -28,6 +28,18 @@ export class TelaCadastroComponent implements OnInit {
 
   ngOnInit(): void {
     this.inicializarFormulario();
+
+    // Preenche o formulário se vier dados do state
+    const state = history.state;
+    if (state && (state.name || state.email || state.phone)) {
+      this.formUsuario.patchValue({
+        name: state.name || '',
+        email: state.email || '',
+        phone: state.phone || ''
+      });
+      // Define tipoConta como PROVIDER para o fluxo de upgrade
+      localStorage.setItem('tipoConta', 'PROVIDER');
+    }
   }
 
   private inicializarFormulario(): void {
@@ -69,7 +81,20 @@ export class TelaCadastroComponent implements OnInit {
           this.router.navigate([tipoConta === 'CLIENT' ? '/login' : '/login-provider']);
         },
         error: (err) => {
-          if (err?.error?.message === 'Este e-mail já está cadastrado.') {
+          // Se já existe e está tentando virar PROVIDER, faz upgrade
+          if (err?.error?.message === 'Este e-mail já está cadastrado.' && tipoConta === 'PROVIDER') {
+            this.apiService.atualizarUsuarioParaProvider(dados.email).subscribe({
+              next: () => {
+                this.dialog.open(DialogSuccessComponent);
+                this.formUsuario.reset();
+                localStorage.removeItem('tipoConta');
+                this.router.navigate(['/login-provider']);
+              },
+              error: () => {
+                alert('Erro ao atualizar para prestador. Tente novamente.');
+              }
+            });
+          } else if (err?.error?.message === 'Este e-mail já está cadastrado.') {
             alert('Este e-mail já está cadastrado. Tente fazer login ou use outro.');
           } else {
             alert('Erro ao realizar cadastro. Tente novamente.');

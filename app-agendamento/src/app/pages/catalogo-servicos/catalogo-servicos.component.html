@@ -9,8 +9,13 @@
     </div>
   </div>
 
+  <!-- Mensagem de erro na busca -->
+  <div *ngIf="mensagemErroBusca" class="alert alert-danger text-center fw-semibold" style="background: #ffeaea; color: #c82333; border: 1px solid #f5c6cb;">
+    {{ mensagemErroBusca }}
+  </div>
+
   <div class="row">
-    <div class="col-md-4 g-4" *ngFor="let servico of servicos">
+    <div class="col-md-4 g-4" *ngFor="let servico of servicosFiltrados">
       <div class="service-card" (click)="openModal(servico)">
         <app-cards-catalogo-servicos
           [image]="'../../../assets/img/maintenance.jpg'"

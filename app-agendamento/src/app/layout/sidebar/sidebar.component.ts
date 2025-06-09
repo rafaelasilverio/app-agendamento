@@ -18,7 +18,7 @@ export class SidebarComponent implements OnInit {
   constructor(
     private router: Router,
     private auth: AuthService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.auth.usuario$.subscribe(usuario => {
@@ -45,7 +45,19 @@ export class SidebarComponent implements OnInit {
   }
 
   paginaCadastrarServico() {
-    this.router.navigate(['/manage-services']);
+    const usuarioAtual = this.auth.getUsuarioAtual();
+    // Só permite o fluxo se for CLIENT
+    if (this.tipoConta === 'CLIENT' && usuarioAtual) {
+      // Seta localmente o tipoConta para PROVIDER para o fluxo de upgrade
+      localStorage.setItem('tipoConta', 'PROVIDER');
+      this.router.navigate(['/tela-cadastro'], {
+        state: {
+          name: usuarioAtual.name,
+          email: usuarioAtual.email,
+          phone: usuarioAtual.phone
+        }
+      });
+    }
   }
 
   logout() {

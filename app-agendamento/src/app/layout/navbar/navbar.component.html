@@ -23,10 +23,10 @@
         </ul>
 
         <!-- Barra de busca -->
-        <form class="flex col-4" role="search">
-          <input class="container-fluid form-control" type="search" placeholder="Pesquise por serviços..." aria-label="Search">
-          <button class="btn btn-outline-success gap-2" type="submit"><i class="bi bi-search"></i></button>
-        </form>
+        <div class="flex col-4" role="search" style="display: flex; gap: 8px; align-items: center;">
+          <input class="container-fluid form-control" type="search" placeholder="Pesquise por serviços..." aria-label="Search" [(ngModel)]="termoBuscaNavbar" name="termoBuscaNavbar" (keyup.enter)="onClickBuscaNavbar()">
+          <button class="btn btn-outline-success gap-2" type="button" (click)="onClickBuscaNavbar()"><i class="bi bi-search"></i></button>
+        </div>
 
         <!-- Ações à direita: login ou perfil -->
         <!-- SE ESTIVER LOGADO -->

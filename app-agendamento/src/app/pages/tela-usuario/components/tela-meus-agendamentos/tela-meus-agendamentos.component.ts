@@ -57,7 +57,7 @@ export class TelaMeusAgendamentosComponent implements OnInit {
         this.agendamentos = res.map(a => ({
           id: a.id,
           servico: a.service?.name || '',
-          prestador: a.service?.provider?.name || '', // ajuste conforme model
+          prestador: a.service?.provider?.name || '',
           data: a.date?.slice(0, 10),
           horario: a.date?.slice(11, 16),
           status: a.status?.toLowerCase() || 'pendente',
@@ -71,7 +71,11 @@ export class TelaMeusAgendamentosComponent implements OnInit {
           tipoAtendimento: a.service?.attendanceType,
           endereco: a.service?.location,
           contato: a.service?.contact,
-          metodosPagamento: a.service?.paymentMethod
+          metodosPagamento: Array.isArray(a.service?.paymentMethod)
+            ? a.service?.paymentMethod
+            : (typeof a.service?.paymentMethod === 'string' && a.service?.paymentMethod)
+              ? a.service?.paymentMethod.split(',').map((m: string) => m.trim())
+              : []
         }));
       },
       error: () => {

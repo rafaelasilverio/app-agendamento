@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { CardsCatalogoServicosComponent } from '../../components/cards-catalogo-servicos/cards-catalogo-servicos.component';
 import { ServicoDetalhesModalComponent } from '../../components/servico-detalhes-modal/servico-detalhes-modal.component';
 import { ApiService } from '../../../service/api.service';
 import { ConfimarAgendamentoModalComponent } from '../../components/confimar-agendamento-modal/confimar-agendamento-modal.component';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogSuccessComponent } from '../../components/dialog-success/dialog-success.component';
 
 interface Servico {
   id: number;
@@ -40,16 +42,20 @@ interface Servico {
   templateUrl: './catalogo-servicos.component.html',
   styleUrls: ['./catalogo-servicos.component.scss']
 })
-export class CatalogoServicosComponent implements OnInit {
+export class CatalogoServicosComponent implements OnInit, OnDestroy {
   servicos: Servico[] = [];
+  servicosFiltrados: Servico[] = [];
   selectedServico: Servico | null = null;
   modalVisivel = false;
   modalAgendarVisivel = false;
   servicoParaAgendar: Servico | null = null;
+  private navbarSearchListener: any;
+  mensagemErroBusca: string = '';
 
   constructor(
     private router: Router,
-    private api: ApiService
+    private api: ApiService,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -81,8 +87,42 @@ export class CatalogoServicosComponent implements OnInit {
           provider: s.provider.name,
           agendado: idsAgendados.includes(s.id)
         }));
+        this.servicosFiltrados = [...this.servicos];
+        // Se veio termo de busca do navbar, filtra já
+        const nav = window.history.state;
+        if (nav && nav.termoBusca) {
+          this.filtrarServicos(nav.termoBusca);
+        }
       });
     });
+    // Escuta evento global de busca do navbar
+    this.navbarSearchListener = (e: any) => {
+      this.filtrarServicos(e.detail);
+    };
+    window.addEventListener('navbar-search', this.navbarSearchListener);
+  }
+
+  ngOnDestroy(): void {
+    window.removeEventListener('navbar-search', this.navbarSearchListener);
+  }
+
+  filtrarServicos(termo: string) {
+    if (!termo || termo.trim() === '') {
+      this.servicosFiltrados = [...this.servicos];
+      this.mensagemErroBusca = '';
+      // Limpa o campo de busca do navbar
+      window.dispatchEvent(new CustomEvent('navbar-clear-search'));
+      return;
+    }
+    const termoLower = termo.toLowerCase();
+    this.servicosFiltrados = this.servicos.filter(s => s.name.toLowerCase().includes(termoLower));
+    // Limpa o campo de busca do navbar após buscar
+    window.dispatchEvent(new CustomEvent('navbar-clear-search'));
+    if (this.servicosFiltrados.length === 0) {
+      this.mensagemErroBusca = 'Nenhum serviço encontrado para sua busca.';
+    } else {
+      this.mensagemErroBusca = '';
+    }
   }
 
   openModal(servico: Servico): void {
@@ -168,5 +208,10 @@ export class CatalogoServicosComponent implements OnInit {
     if (!dailyHours) return '23:59';
     const parts = dailyHours.split(' às ');
     return (parts[1] || '23:59').trim();
+  }
+
+  onInputBusca(event: Event) {
+    const value = (event.target as HTMLInputElement)?.value || '';
+    this.filtrarServicos(value);
   }
 }

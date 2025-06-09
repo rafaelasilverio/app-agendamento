@@ -93,4 +93,8 @@ export class ApiService {
     return this.http.patch(`${this.baseUrl}/appointments/${id}/cancel`, {}, { headers });
   }
 
+  atualizarUsuarioParaProvider(email: string) {
+    return this.http.patch('/usuarios/provider', { email });
+  }
+
 }

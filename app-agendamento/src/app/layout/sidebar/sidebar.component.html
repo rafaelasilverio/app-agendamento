@@ -43,7 +43,7 @@
             <span>Meus Agendamentos</span>
           </a>
         </li>
-        <li class="nav-item mb-2">
+        <li class="nav-item mb-2" *ngIf="tipoConta !== 'CLIENT'">
           <a class="nav-link sidebar-link d-flex align-items-center gap-2" (click)="paginaGerenciarServicos()">
             <i class="bi bi-briefcase-fill"></i>
             <span>Gerenciar Serviços</span>
@@ -55,12 +55,12 @@
             <span>Configurações da conta</span>
           </a>
         </li>
-        <li class="nav-item mb-2" *ngIf="tipoConta === 'CLIENT'">
+        <!-- <li class="nav-item mb-2" *ngIf="tipoConta === 'CLIENT'">
           <a class="nav-link sidebar-link d-flex align-items-center gap-2" (click)="paginaCadastrarServico()">
             <i class="bi bi-person-workspace"></i>
             <span>Quero prestar serviços</span>
           </a>
-        </li>
+        </li> -->
         <li class="nav-item mb-2">
           <a class="nav-link sidebar-link d-flex align-items-center gap-2" (click)="logout()"
             data-bs-dismiss="offcanvas">
