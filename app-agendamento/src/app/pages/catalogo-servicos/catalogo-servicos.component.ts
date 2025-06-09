@@ -59,13 +59,46 @@ export class CatalogoServicosComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    const token = localStorage.getItem('token') || '';
+    // Busca todos os serviços SEM token (público)
     this.api.buscarTodosServicos().subscribe(res => {
-      this.api.buscarMeusAgendamentos(token).subscribe(agendamentos => {
-        const idsAgendados = agendamentos
-          .filter((a: any) => a.status?.toLowerCase() !== 'cancelado')
-          .map((a: any) => a.service.id);
+      // Só busca agendamentos se estiver logado
+      const token = localStorage.getItem('token');
+      if (token) {
+        this.api.buscarMeusAgendamentos(token).subscribe(agendamentos => {
+          const idsAgendados = agendamentos
+            .filter((a: any) => a.status?.toLowerCase() !== 'cancelado')
+            .map((a: any) => a.service.id);
 
+          this.servicos = res.map(s => ({
+            id: s.id,
+            image: s.image,
+            images: [s.image],
+            name: s.name,
+            description: s.description,
+            category: s.category,
+            availableDays: s.availableDays,
+            dailyHours: s.dailyHours,
+            duration: s.duration,
+            attendanceType: s.attendanceType,
+            location: s.location,
+            cep: s.cep,
+            neighborhood: s.neighborhood,
+            city: s.city,
+            contact: s.contact,
+            price: s.price.toFixed(2),
+            paymentMethod: s.paymentMethod,
+            provider: s.provider.name,
+            agendado: idsAgendados.includes(s.id)
+          }));
+          this.servicosFiltrados = [...this.servicos];
+          // Se veio termo de busca do navbar, filtra já
+          const nav = window.history.state;
+          if (nav && nav.termoBusca) {
+            this.filtrarServicos(nav.termoBusca);
+          }
+        });
+      } else {
+        // Usuário não logado: mostra todos os serviços sem status de agendamento
         this.servicos = res.map(s => ({
           id: s.id,
           image: s.image,
@@ -85,15 +118,14 @@ export class CatalogoServicosComponent implements OnInit, OnDestroy {
           price: s.price.toFixed(2),
           paymentMethod: s.paymentMethod,
           provider: s.provider.name,
-          agendado: idsAgendados.includes(s.id)
+          agendado: false
         }));
         this.servicosFiltrados = [...this.servicos];
-        // Se veio termo de busca do navbar, filtra já
         const nav = window.history.state;
         if (nav && nav.termoBusca) {
           this.filtrarServicos(nav.termoBusca);
         }
-      });
+      }
     });
     // Escuta evento global de busca do navbar
     this.navbarSearchListener = (e: any) => {
@@ -186,6 +218,13 @@ export class CatalogoServicosComponent implements OnInit, OnDestroy {
 
   abrirModalAgendar(servico: Servico) {
     if (servico.agendado) return;
+    // Se não estiver logado, redireciona para escolha de tipo de conta
+    const user = localStorage.getItem('user');
+    const token = localStorage.getItem('token');
+    if (!user || !token) {
+      this.router.navigate(['/register-choice']);
+      return;
+    }
     this.servicoParaAgendar = servico;
     this.modalAgendarVisivel = true;
   }
