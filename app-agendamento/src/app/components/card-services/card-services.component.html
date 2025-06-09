@@ -1,24 +1,33 @@
 <div class="card shadow-sm h-100">
-  <img *ngIf="servico.image" [src]="servico.image" class="card-img-top" alt="Imagem do serviço" style="object-fit: cover; height: 180px;">
+  <img *ngIf="servico.image" [src]="'../../../assets/img/maintenance.jpg'" class="card-img-top" alt="Imagem do serviço" style="object-fit: cover; height: 180px;">
 
   <div class="card-body">
     <h5 class="card-title">{{ servico.name }}</h5>
-    <p class="text-muted">{{ servico.description }}</p>
+    <p class="text-muted"><strong>Descrição:</strong> {{ servico.description }}</p>
 
     <p><strong>Categoria:</strong> {{ servico.category }}</p>
-    <p><strong>Calendário:</strong> {{ servico.availableDays }}</p>
-    <p><strong>Horário:</strong> {{ servico.dailyHours }}</p>
+    <p><strong>Dias de Atendimento:</strong>
+      <ng-container *ngIf="servico.availableDays && servico.availableDays.trim() !== '' && servico.availableDays !== 'null'; else naoInformado">
+        {{ servico.availableDays }}
+      </ng-container>
+      <ng-template #naoInformado>Não informado</ng-template>
+    </p>
+    <p><strong>Horário de Atendimento:</strong> {{ servico.dailyHours || 'Não informado' }}</p>
     <p><strong>Duração:</strong> {{ servico.duration }}</p>
     <p><strong>Tipo de Atendimento:</strong> {{ servico.attendanceType }}</p>
     <p><strong>Endereço:</strong> {{ servico.location }} </p>
     <p><strong>Bairro:</strong> {{ servico.neighborhood }} </p>
-    <p><strong>Cidade:</strong> {{ servico.city }} - CEP {{ servico.cep }}</p>
-    <p><strong>CEP:</strong> {{ servico.cep }}</p>
-    <p><strong>Contato:</strong> {{ servico.contact }}</p>
-    <p><strong>Preço:</strong> R$ {{ servico.price | number:'1.2-2' }}</p>
+    <p><strong>Cidade:</strong> {{ servico.city }}<span *ngIf="servico.cep"></span></p>
+    <p *ngIf="servico.cep"><strong>CEP:</strong> {{ servico.cep | cep }}</p>
+    <p *ngIf="servico.contact"><strong>Contato:</strong> {{ servico.contact | telefone }}</p>
+    <p>
+      <strong>Preço:</strong>
+      <ng-container *ngIf="isPrecoValido(servico.price); else precoNaoInformado">
+        R$ {{ getPrecoFormatado(servico.price) }}
+      </ng-container>
+      <ng-template #precoNaoInformado>Não informado</ng-template>
+    </p>
     <p><strong>Formas de Pagamento:</strong> {{ servico.paymentMethod }}</p>
-    <p><strong>Dias de Atendimento:</strong> {{ servico.availableDays }}</p>
-    <p><strong>Horário de Atendimento:</strong> {{ servico.dailyHours }}</p>
     <!-- Adicione outros campos relevantes aqui -->
 
     <div class="d-flex justify-content-between mt-3">

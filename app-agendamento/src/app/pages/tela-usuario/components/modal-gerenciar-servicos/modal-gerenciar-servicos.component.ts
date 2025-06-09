@@ -1,5 +1,5 @@
 import {
-  Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChanges
+  Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChanges, ChangeDetectorRef
 } from '@angular/core';
 import {
   CommonModule
@@ -57,7 +57,10 @@ export class ModalGerenciarServicosComponent implements OnInit, OnChanges {
   diasCalendarioSelecionados: Date[] = [];
   diasCalendarioControl = new FormControl<Date | null>(null);
 
-  constructor(private fb: FormBuilder) {}
+  diasDaSemana: string[] = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+  diasSelecionados: string[] = [];
+
+  constructor(private fb: FormBuilder, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.inicializarFormulario(this.servicoSelecionado);
@@ -71,9 +74,12 @@ export class ModalGerenciarServicosComponent implements OnInit, OnChanges {
 
   inicializarFormulario(servico: any = null): void {
     this.previewUrls = [];
-    this.diasCalendarioSelecionados = servico?.availableDays
-      ? servico.availableDays.split(',').map((d: string) => new Date(d.trim()))
-      : [];
+    if (servico?.availableDays && /^[A-Za-zÀ-ú, ]+$/.test(servico.availableDays)) {
+      this.diasSelecionados = servico.availableDays.split(',').map((d: string) => d.trim());
+    } else {
+      this.diasSelecionados = [];
+    }
+    this.diasCalendarioSelecionados = [];
     this.diasCalendarioControl.setValue(null);
 
     let horaInicio = '', horaFim = '';
@@ -87,20 +93,22 @@ export class ModalGerenciarServicosComponent implements OnInit, OnChanges {
       name: [servico?.name || ''],
       description: [servico?.description || ''],
       category: [servico?.category || ''],
-      availableDays: [this.diasCalendarioSelecionados.map(d => d.toISOString().split('T')[0]).join(', ')],
+      availableDays: [this.diasSelecionados.join(', ')],
       horaInicio: [horaInicio],
       horaFim: [horaFim],
       duration: [servico?.duration || ''],
       attendanceType: [servico?.attendanceType || ''],
       location: [servico?.location || ''],
-      cep: [servico?.cep || ''],
+      cep: [servico?.cep ? String(servico.cep) : ''],
       neighborhood: [servico?.neighborhood || ''],
       city: [servico?.city || ''],
-      contact: [servico?.contact || ''],
-      price: [servico?.price ? this.formatarValorReais(servico.price) : ''],
+      contact: [servico?.contact ? String(servico.contact) : ''],
+      price: [servico?.price !== undefined && servico?.price !== null ? this.formatarValorReais(servico.price) : ''],
       paymentMethod: [servico?.paymentMethod || ''],
       image: [servico?.image || '']
     });
+    // Força detecção de mudanças para garantir atualização dos campos
+    this.cdr.detectChanges();
   }
 
   // Seleção múltipla de dias
@@ -123,6 +131,18 @@ export class ModalGerenciarServicosComponent implements OnInit, OnChanges {
     });
     // Limpa o input do datepicker para múltipla seleção
     this.diasCalendarioControl.setValue(null);
+  }
+
+  alternarDia(dia: string) {
+    const idx = this.diasSelecionados.indexOf(dia);
+    if (idx === -1) {
+      this.diasSelecionados.push(dia);
+    } else {
+      this.diasSelecionados.splice(idx, 1);
+    }
+    this.formServico.patchValue({
+      availableDays: this.diasSelecionados.join(', ')
+    });
   }
 
   formatarValorReais(valor: number | string): string {
@@ -164,12 +184,18 @@ export class ModalGerenciarServicosComponent implements OnInit, OnChanges {
 
   salvarServico(): void {
     const formValues = this.formServico.value;
-    const precoConvertido = parseFloat((formValues.price || '0').toString().replace(/\./g, '').replace(',', '.'));
+    // Corrigir parse do preço para número
+    let precoConvertido = 0;
+    if (typeof formValues.price === 'string') {
+      precoConvertido = parseFloat(formValues.price.replace(/\./g, '').replace(',', '.'));
+    } else if (typeof formValues.price === 'number') {
+      precoConvertido = formValues.price;
+    }
     const payload = {
       name: formValues.name,
       description: formValues.description,
       category: formValues.category,
-      availableDays: this.diasCalendarioSelecionados.map(d => d.toISOString().split('T')[0]).join(', '),
+      availableDays: this.diasSelecionados.join(', '),
       dailyHours: `${formValues.horaInicio} às ${formValues.horaFim}`,
       duration: formValues.duration,
       attendanceType: formValues.attendanceType,
