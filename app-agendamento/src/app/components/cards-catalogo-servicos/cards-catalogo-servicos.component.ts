@@ -19,6 +19,7 @@ export class CardsCatalogoServicosComponent {
   @Input() duration!: string;
   @Input() attendanceType!: string;
   @Input() location!: string;
+  @Input() agendado: boolean = false;
 
   @Output() agendar = new EventEmitter<void>();
 }

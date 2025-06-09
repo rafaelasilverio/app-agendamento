@@ -4,6 +4,7 @@ import { Router, Navigation } from '@angular/router';
 import { CardsAgendamentosComponent } from '../../../../components/cards-agendamentos/cards-agendamentos.component';
 import { ModalCancelarAgendamentoComponent } from './modal-cancelar-agendamento/modal-cancelar-agendamento.component';
 import { Agendamento } from './models/agendamento.model';
+import { ApiService } from '../../../../../service/api.service';
 
 @Component({
   selector: 'app-tela-meus-agendamentos',
@@ -42,12 +43,41 @@ export class TelaMeusAgendamentosComponent implements OnInit {
     }
   ];
 
-  constructor(private router: Router) {
-    this.processarStateDeNavegacao();
-  }
+  constructor(
+    private api: ApiService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
-    // Mantido vazio ou para outras inicializações futuras
+    const token = localStorage.getItem('token');
+    if (!token) return;
+
+    this.api.buscarMeusAgendamentos(token).subscribe({
+      next: (res) => {
+        this.agendamentos = res.map(a => ({
+          id: a.id,
+          servico: a.service?.name || '',
+          prestador: a.service?.provider?.name || '', // ajuste conforme model
+          data: a.date?.slice(0, 10),
+          horario: a.date?.slice(11, 16),
+          status: a.status?.toLowerCase() || 'pendente',
+          descricao: a.description,
+          imagem: a.service?.image,
+          preco: a.service ? `R$ ${a.service.price}` : '',
+          categoria: a.service?.category,
+          calendario: [a.service?.availableDays],
+          horarioAtendimento: { inicio: a.service?.dailyHours, fim: a.service?.dailyHours },
+          tempoEstimado: a.service?.duration,
+          tipoAtendimento: a.service?.attendanceType,
+          endereco: a.service?.location,
+          contato: a.service?.contact,
+          metodosPagamento: a.service?.paymentMethod
+        }));
+      },
+      error: () => {
+        this.agendamentos = [];
+      }
+    });
   }
 
   private processarStateDeNavegacao(): void {
@@ -90,9 +120,22 @@ export class TelaMeusAgendamentosComponent implements OnInit {
 
   confirmarCancelamento(): void {
     if (this.agendamentoSelecionadoId !== null) {
-      const ag = this.agendamentos.find(a => a.id === this.agendamentoSelecionadoId);
-      if (ag) ag.status = 'cancelado';
+      const token = localStorage.getItem('token');
+      if (!token) return;
+
+      this.api.cancelarAgendamento(this.agendamentoSelecionadoId, token).subscribe({
+        next: () => {
+          this.agendamentos = this.agendamentos.map(a =>
+            a.id === this.agendamentoSelecionadoId ? { ...a, status: 'cancelado' } : a
+          );
+          this.fecharModal();
+        },
+        error: () => {
+          alert('Erro ao cancelar agendamento.');
+          this.fecharModal();
+        }
+      });
     }
-    this.fecharModal();
   }
+
 }

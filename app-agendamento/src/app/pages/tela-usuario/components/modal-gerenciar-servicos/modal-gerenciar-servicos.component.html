@@ -19,22 +19,32 @@
       <!-- Dias de Atendimento -->
       <div class="col-12">
         <label class="form-label d-block mb-2">Dias de atendimento</label>
-        <div class="d-flex flex-wrap gap-2">
-          <button
-            type="button"
-            *ngFor="let dia of diasDaSemana"
-            (click)="alternarDia(dia)"
-            [ngClass]="{
-              'btn btn-sm': true,
-              'btn-success': diasSelecionados.includes(dia),
-              'btn-outline-danger': !diasSelecionados.includes(dia)
-            }"
-          >
-            {{ dia }}
-          </button>
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>Selecione os dias de atendimento</mat-label>
+          <input
+            matInput
+            [matDatepicker]="picker"
+            [formControl]="diasCalendarioControl"
+            readonly
+            (dateChange)="onDiasCalendarioChange($event.value)"
+            placeholder="Escolha os dias"
+          />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker
+            #picker
+            [startView]="'multi-year'"
+            [touchUi]="false"
+            [panelClass]="'custom-datepicker'">
+          </mat-datepicker>
+        </mat-form-field>
+        <div class="mt-2 small text-muted">
+          Selecionados:
+          <span *ngFor="let d of diasCalendarioSelecionados; let last = last">
+            {{ d | date:'dd/MM/yyyy' }}<span *ngIf="!last">, </span>
+          </span>
         </div>
-        <input type="hidden" formControlName="availableDays" />
       </div>
+      <input type="hidden" formControlName="availableDays" />
 
       <div class="col-md-6">
         <label class="form-label">Horário de Atendimento</label>

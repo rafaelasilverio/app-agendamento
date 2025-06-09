@@ -6,7 +6,7 @@
 
     <div id="carouselServico" class="carousel slide mb-4" data-bs-ride="carousel">
       <div class="carousel-inner">
-        <div *ngFor="let img of (servico.images ?? [servico.image]) | slice:0:3; let i = index" class="carousel-item"
+        <div *ngFor="let img of ['../../../assets/img/maintenance.jpg']; let i = index" class="carousel-item"
           [class.active]="i === 0">
           <img [src]="img" class="d-block w-100 carousel-img" alt="Imagem do serviço">
         </div>
@@ -34,9 +34,13 @@
       </ul>
     </div>
 
-    <div class="d-flex justify-content-end gap-2">
+    <div class="d-flex justify-content-end gap-2 align-items-center">
       <button class="btn btn-secondary" (click)="onClose()">Fechar</button>
-      <button class="btn btn-primary" (click)="onAgendar()">Agendar Serviço</button>
+      <button *ngIf="!servico.agendado" class="btn btn-primary" (click)="onAgendar()">Agendar Serviço</button>
+    </div>
+    <div class="d-flex mt-3">
+      <button *ngIf="servico.agendado" class="btn btn-danger w-100" (click)="cancelarServico()">Cancelar
+        Serviço</button>
     </div>
   </div>
 </div>

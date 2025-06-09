@@ -36,18 +36,20 @@
       </span>
     </div>
 
-    <span class="badge mb-2 small" [ngClass]="{
-      'bg-warning text-dark': agendamento.status === 'pendente',
-      'bg-success': agendamento.status === 'confirmado',
-      'bg-danger': agendamento.status === 'cancelado'
-    }">
-      {{ agendamento.status | titlecase }}
-    </span>
+    <div [ngClass]="{
+        'status-badge': true,
+        'status-agendado': agendamento.status === 'pendente' || agendamento.status === 'confirmado',
+        'status-cancelado': agendamento.status === 'cancelado'
+      }">
+      {{
+      agendamento.status === 'cancelado'
+      ? 'Cancelado'
+      : 'Agendado'
+      }}
+    </div>
 
-    <button
-      class="btn btn-outline-danger btn-sm w-100 mt-2"
-      (click)="cancelarAgendamento()"
-    >
+    <button class="btn btn-outline-danger btn-sm w-100 mt-2" (click)="cancelarAgendamento()"
+      [disabled]="agendamento.status === 'cancelado'">
       Cancelar Agendamento
     </button>
   </div>

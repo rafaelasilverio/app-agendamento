@@ -17,6 +17,9 @@
     <p><strong>Contato:</strong> {{ servico.contact }}</p>
     <p><strong>Preço:</strong> R$ {{ servico.price | number:'1.2-2' }}</p>
     <p><strong>Formas de Pagamento:</strong> {{ servico.paymentMethod }}</p>
+    <p><strong>Dias de Atendimento:</strong> {{ servico.availableDays }}</p>
+    <p><strong>Horário de Atendimento:</strong> {{ servico.dailyHours }}</p>
+    <!-- Adicione outros campos relevantes aqui -->
 
     <div class="d-flex justify-content-between mt-3">
       <button class="btn btn-sm btn-outline-primary" (click)="emitirEdicao()">Editar</button>

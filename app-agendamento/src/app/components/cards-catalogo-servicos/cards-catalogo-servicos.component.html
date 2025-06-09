@@ -1,4 +1,3 @@
-<!-- src/app/components/cards-catalogo-servicos/cards-catalogo-servicos.component.html -->
 <div class="card h-100 shadow-sm service-card">
   <div class="image-container">
     <img [src]="image" alt="Imagem do serviço" />
@@ -20,6 +19,11 @@
 
     <p class="card-text fw-bold mt-auto">Preço: R$ {{ price }}</p>
 
-    <button class="btn btn-primary mt-3" (click)="agendar.emit()">Agendar Serviço</button>
+    <button *ngIf="!agendado" class="btn btn-primary w-100" (click)="agendar.emit()">
+      Agendar Serviço
+    </button>
+    <button *ngIf="agendado" class="btn btn-success w-100" disabled>
+      Serviço já agendado
+    </button>
   </div>
 </div>

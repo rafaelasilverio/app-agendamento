@@ -74,4 +74,23 @@ export class ApiService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.delete(`${this.baseUrl}/users/profile`, { headers });
   }
+
+  // Criar agendamento
+  agendarServico(dados: any, token: string) {
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.post(`${this.baseUrl}/appointments`, dados, { headers });
+  }
+
+  // Buscar agendamentos do usuário logado
+  buscarMeusAgendamentos(token: string) {
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<any[]>(`${this.baseUrl}/appointments`, { headers });
+  }
+
+  // Cancelar agendamento
+  cancelarAgendamento(id: number, token: string) {
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.patch(`${this.baseUrl}/appointments/${id}/cancel`, {}, { headers });
+  }
+
 }

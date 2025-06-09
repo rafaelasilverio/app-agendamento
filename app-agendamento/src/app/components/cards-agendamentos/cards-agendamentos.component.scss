@@ -16,3 +16,19 @@
   max-width: 100%;
   object-fit: cover;
 }
+
+.status-badge {
+  display: inline-block;
+  padding: 0.4em 1em;
+  border-radius: 16px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 1em;
+  font-size: 1em;
+}
+.status-agendado {
+  background-color: #16a34a;
+}
+.status-cancelado {
+  background-color: #dc2626;
+}

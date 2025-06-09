@@ -12,18 +12,43 @@
   <div class="row">
     <div class="col-md-4 g-4" *ngFor="let servico of servicos">
       <div class="service-card" (click)="openModal(servico)">
-        <app-cards-catalogo-servicos [image]="servico.image" [name]="servico.name" [description]="servico.description"
-          [price]="servico.price" [provider]="servico.provider" [availableDays]="servico.availableDays"
-          [dailyHours]="servico.dailyHours" [duration]="servico.duration" [attendanceType]="servico.attendanceType"
-          [location]="servico.location" (agendar)="agendarServico(servico)">
+        <app-cards-catalogo-servicos
+          [image]="'../../../assets/img/maintenance.jpg'"
+          [name]="servico.name"
+          [description]="servico.description"
+          [price]="servico.price"
+          [provider]="servico.provider"
+          [availableDays]="servico.availableDays"
+          [dailyHours]="servico.dailyHours"
+          [duration]="servico.duration"
+          [attendanceType]="servico.attendanceType"
+          [location]="servico.location"
+          [agendado]="!!servico.agendado"
+          (agendar)="abrirModalAgendar(servico)">
         </app-cards-catalogo-servicos>
       </div>
     </div>
   </div>
 
-  <!-- Modal fora da grid de cards -->
+  <!-- Modal de detalhes -->
   <ng-container *ngIf="modalVisivel && selectedServico as serv">
-    <app-servico-detalhes-modal [servico]="serv" (close)="closeModal()" (agendar)="agendarServico(serv)">
+    <app-servico-detalhes-modal
+      [servico]="selectedServico"
+      (close)="closeModal()"
+      (agendar)="abrirModalAgendar(selectedServico)"
+      (cancelar)="cancelarAgendamentoServico(selectedServico)">
     </app-servico-detalhes-modal>
+  </ng-container>
+
+  <!-- Modal de confirmação de agendamento -->
+  <ng-container *ngIf="modalAgendarVisivel && servicoParaAgendar">
+    <app-confimar-agendamento-modal
+      [visivel]="modalAgendarVisivel"
+      [diasDisponiveis]="servicoParaAgendar.availableDays || ''"
+      [horarioInicio]="getHorarioInicio(servicoParaAgendar.dailyHours)"
+      [horarioFim]="getHorarioFim(servicoParaAgendar.dailyHours)"
+      (confirmar)="onConfirmarAgendamento($event)"
+      (fechar)="modalAgendarVisivel = false">
+    </app-confimar-agendamento-modal>
   </ng-container>
 </div>

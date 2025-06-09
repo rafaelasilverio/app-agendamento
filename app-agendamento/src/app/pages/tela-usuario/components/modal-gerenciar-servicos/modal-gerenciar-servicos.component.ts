@@ -1,8 +1,19 @@
-import { Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChanges
+} from '@angular/core';
+import {
+  CommonModule
+} from '@angular/common';
+import {
+  FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, FormControl
+} from '@angular/forms';
 import { ModalComponent } from '../../../../components/modal/modal.component';
-import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-modal-gerenciar-servicos',
@@ -12,9 +23,17 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
     ReactiveFormsModule,
     FormsModule,
     ModalComponent,
-    NgxMaskDirective
-],
-  providers: [provideNgxMask()],
+    NgxMaskDirective,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatButtonModule
+  ],
+  providers: [
+    provideNgxMask(),
+    { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' }
+  ],
   templateUrl: './modal-gerenciar-servicos.component.html',
   styleUrl: './modal-gerenciar-servicos.component.scss'
 })
@@ -29,15 +48,16 @@ export class ModalGerenciarServicosComponent implements OnInit, OnChanges {
 
   formServico!: FormGroup;
 
-  diasSelecionados: string[] = [];
-  diasDaSemana: string[] = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
   tiposAtendimento: string[] = ['Somente local', 'Atendimento à Domicilio', 'Atendimento Online'];
   formasPagamento: string[] = ['Pix', 'Cartão de Crédito', 'Dinheiro'];
 
   selectedFiles: File[] = [];
   previewUrls: string[] = [];
 
-  constructor(private fb: FormBuilder) { }
+  diasCalendarioSelecionados: Date[] = [];
+  diasCalendarioControl = new FormControl<Date | null>(null);
+
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.inicializarFormulario(this.servicoSelecionado);
@@ -50,7 +70,12 @@ export class ModalGerenciarServicosComponent implements OnInit, OnChanges {
   }
 
   inicializarFormulario(servico: any = null): void {
-    this.diasSelecionados = servico?.availableDays?.split(', ') || [];
+    this.previewUrls = [];
+    this.diasCalendarioSelecionados = servico?.availableDays
+      ? servico.availableDays.split(',').map((d: string) => new Date(d.trim()))
+      : [];
+    this.diasCalendarioControl.setValue(null);
+
     let horaInicio = '', horaFim = '';
     if (servico?.dailyHours) {
       const partes = servico.dailyHours.split(' às ');
@@ -58,12 +83,11 @@ export class ModalGerenciarServicosComponent implements OnInit, OnChanges {
       horaFim = partes[1] || '';
     }
 
-    this.previewUrls = [];
     this.formServico = this.fb.group({
       name: [servico?.name || ''],
       description: [servico?.description || ''],
       category: [servico?.category || ''],
-      availableDays: [this.diasSelecionados.join(', ')],
+      availableDays: [this.diasCalendarioSelecionados.map(d => d.toISOString().split('T')[0]).join(', ')],
       horaInicio: [horaInicio],
       horaFim: [horaFim],
       duration: [servico?.duration || ''],
@@ -79,16 +103,26 @@ export class ModalGerenciarServicosComponent implements OnInit, OnChanges {
     });
   }
 
-  alternarDia(dia: string): void {
-    const index = this.diasSelecionados.indexOf(dia);
-    if (index >= 0) {
-      this.diasSelecionados.splice(index, 1);
+  // Seleção múltipla de dias
+  onDiasCalendarioChange(val: Date | null) {
+    if (!val) return;
+    const existe = this.diasCalendarioSelecionados.some(d =>
+      d.getDate() === val.getDate() &&
+      d.getMonth() === val.getMonth() &&
+      d.getFullYear() === val.getFullYear()
+    );
+    if (!existe) {
+      this.diasCalendarioSelecionados.push(val);
     } else {
-      this.diasSelecionados.push(dia);
+      this.diasCalendarioSelecionados = this.diasCalendarioSelecionados.filter(d =>
+        !(d.getDate() === val.getDate() && d.getMonth() === val.getMonth() && d.getFullYear() === val.getFullYear())
+      );
     }
     this.formServico.patchValue({
-      availableDays: this.diasSelecionados.join(', ')
+      availableDays: this.diasCalendarioSelecionados.map(d => d.toISOString().split('T')[0]).join(', ')
     });
+    // Limpa o input do datepicker para múltipla seleção
+    this.diasCalendarioControl.setValue(null);
   }
 
   formatarValorReais(valor: number | string): string {
@@ -131,12 +165,11 @@ export class ModalGerenciarServicosComponent implements OnInit, OnChanges {
   salvarServico(): void {
     const formValues = this.formServico.value;
     const precoConvertido = parseFloat((formValues.price || '0').toString().replace(/\./g, '').replace(',', '.'));
-
     const payload = {
       name: formValues.name,
       description: formValues.description,
       category: formValues.category,
-      availableDays: this.diasSelecionados.join(', '),
+      availableDays: this.diasCalendarioSelecionados.map(d => d.toISOString().split('T')[0]).join(', '),
       dailyHours: `${formValues.horaInicio} às ${formValues.horaFim}`,
       duration: formValues.duration,
       attendanceType: formValues.attendanceType,
@@ -149,7 +182,6 @@ export class ModalGerenciarServicosComponent implements OnInit, OnChanges {
       paymentMethod: formValues.paymentMethod,
       image: formValues.image
     };
-
     this.salvar.emit(payload);
   }
 }
