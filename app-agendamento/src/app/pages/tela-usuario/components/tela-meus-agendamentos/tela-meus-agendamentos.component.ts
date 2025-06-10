@@ -5,6 +5,7 @@ import { CardsAgendamentosComponent } from '../../../../components/cards-agendam
 import { ModalCancelarAgendamentoComponent } from './modal-cancelar-agendamento/modal-cancelar-agendamento.component';
 import { Agendamento } from './models/agendamento.model';
 import { ApiService } from '../../../../../service/api.service';
+import { AgendamentoSyncService } from '../../../../service/agendamento-sync.service';
 
 @Component({
   selector: 'app-tela-meus-agendamentos',
@@ -45,38 +46,49 @@ export class TelaMeusAgendamentosComponent implements OnInit {
 
   constructor(
     private api: ApiService,
-    private router: Router
+    private router: Router,
+    private agendamentoSync: AgendamentoSyncService
   ) { }
 
   ngOnInit(): void {
+    this.loadAgendamentos();
+  }
+
+  loadAgendamentos(): void {
     const token = localStorage.getItem('token');
     if (!token) return;
-
     this.api.buscarMeusAgendamentos(token).subscribe({
       next: (res) => {
-        this.agendamentos = res.map(a => ({
-          id: a.id,
-          servico: a.service?.name || '',
-          prestador: a.service?.provider?.name || '',
-          data: a.date?.slice(0, 10),
-          horario: a.date?.slice(11, 16),
-          status: a.status?.toLowerCase() || 'pendente',
-          descricao: a.description,
-          imagem: a.service?.image,
-          preco: a.service ? `R$ ${a.service.price}` : '',
-          categoria: a.service?.category,
-          calendario: [a.service?.availableDays],
-          horarioAtendimento: { inicio: a.service?.dailyHours, fim: a.service?.dailyHours },
-          tempoEstimado: a.service?.duration,
-          tipoAtendimento: a.service?.attendanceType,
-          endereco: a.service?.location,
-          contato: a.service?.contact,
-          metodosPagamento: Array.isArray(a.service?.paymentMethod)
-            ? a.service?.paymentMethod
-            : (typeof a.service?.paymentMethod === 'string' && a.service?.paymentMethod)
-              ? a.service?.paymentMethod.split(',').map((m: string) => m.trim())
-              : []
-        }));
+        // Exibe apenas agendamentos que não estão cancelados
+        this.agendamentos = res.filter(a => {
+          const status = (a.status || '').toString().toLowerCase();
+          return status !== 'canceled' && status !== 'cancelado';
+        }).map(a => {
+          const service = a.service || {};
+          return {
+            id: a.id,
+            servico: service.name || a.title || '',
+            prestador: service.provider?.name || a.provider || '',
+            data: (a.date || '').slice(0, 10),
+            horario: (a.date || '').slice(11, 16),
+            status: (a.status || 'pendente').toLowerCase(),
+            descricao: a.description || service.description || '',
+            imagem: service.image || a.image || '',
+            preco: service.price ? `R$ ${service.price}` : (a.price ? `R$ ${a.price}` : ''),
+            categoria: service.category || a.category || '',
+            calendario: [service.availableDays || a.availableDays || ''],
+            horarioAtendimento: { inicio: service.dailyHours || a.dailyHours || '', fim: service.dailyHours || a.dailyHours || '' },
+            tempoEstimado: service.duration || a.duration || '',
+            tipoAtendimento: service.attendanceType || a.attendanceType || '',
+            endereco: service.location || a.location || '',
+            contato: service.contact || a.contact || '',
+            metodosPagamento: Array.isArray(service.paymentMethod)
+              ? service.paymentMethod
+              : (typeof service.paymentMethod === 'string' && service.paymentMethod)
+                ? service.paymentMethod.split(',').map((m: string) => m.trim())
+                : (a.paymentMethod ? (typeof a.paymentMethod === 'string' ? a.paymentMethod.split(',').map((m: string) => m.trim()) : a.paymentMethod) : [])
+          };
+        });
       },
       error: () => {
         this.agendamentos = [];
@@ -126,12 +138,10 @@ export class TelaMeusAgendamentosComponent implements OnInit {
     if (this.agendamentoSelecionadoId !== null) {
       const token = localStorage.getItem('token');
       if (!token) return;
-
       this.api.cancelarAgendamento(this.agendamentoSelecionadoId, token).subscribe({
         next: () => {
-          this.agendamentos = this.agendamentos.map(a =>
-            a.id === this.agendamentoSelecionadoId ? { ...a, status: 'cancelado' } : a
-          );
+          this.loadAgendamentos();
+          this.agendamentoSync.notificarAtualizacao(); // Notifica o catálogo para atualizar
           this.fecharModal();
         },
         error: () => {

@@ -4,14 +4,10 @@
     <form [formGroup]="form" (ngSubmit)="onConfirmar()">
       <div class="mb-3">
         <label class="form-label">Data disponível</label>
-        <input type="date"
-               formControlName="data"
-               class="form-control"
-               [min]="hojeISO"
-               required />
-        <div *ngIf="!isDiaPermitido() && form.get('data')?.touched" class="text-danger small">
-          Escolha um dia permitido: {{ diasDisponiveis }}
-        </div>
+        <select formControlName="data" class="form-control" required>
+          <option value="" disabled>Selecione o dia</option>
+          <option *ngFor="let dia of diasDisponiveisSelect" [ngValue]="dia.value">{{ dia.label }}</option>
+        </select>
       </div>
       <div class="mb-3">
         <label class="form-label">Horário</label>
@@ -26,7 +22,7 @@
       <div class="d-flex justify-content-between">
         <button type="button" class="btn btn-secondary" (click)="onClose()">Cancelar</button>
         <button type="submit" class="btn btn-primary"
-          [disabled]="form.invalid || !isDiaPermitido()">Agendar</button>
+          [disabled]="form.invalid">Agendar</button>
       </div>
     </form>
   </div>

@@ -7,6 +7,8 @@ import { ApiService } from '../../../service/api.service';
 import { ConfimarAgendamentoModalComponent } from '../../components/confimar-agendamento-modal/confimar-agendamento-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogSuccessComponent } from '../../components/dialog-success/dialog-success.component';
+import { AgendamentoSyncService } from '../../service/agendamento-sync.service';
+import { Subscription } from 'rxjs';
 
 interface Servico {
   id: number;
@@ -51,11 +53,13 @@ export class CatalogoServicosComponent implements OnInit, OnDestroy {
   servicoParaAgendar: Servico | null = null;
   private navbarSearchListener: any;
   mensagemErroBusca: string = '';
+  private agendamentoSyncSub: Subscription | null = null;
 
   constructor(
     private router: Router,
     private api: ApiService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private agendamentoSync: AgendamentoSyncService
   ) { }
 
   ngOnInit(): void {
@@ -66,7 +70,7 @@ export class CatalogoServicosComponent implements OnInit, OnDestroy {
       if (token) {
         this.api.buscarMeusAgendamentos(token).subscribe(agendamentos => {
           const idsAgendados = agendamentos
-            .filter((a: any) => a.status?.toLowerCase() !== 'cancelado')
+            .filter((a: any) => a.status?.toLowerCase() !== 'cancelado' && a.status?.toLowerCase() !== 'canceled')
             .map((a: any) => a.service.id);
 
           this.servicos = res.map(s => ({
@@ -132,10 +136,45 @@ export class CatalogoServicosComponent implements OnInit, OnDestroy {
       this.filtrarServicos(e.detail);
     };
     window.addEventListener('navbar-search', this.navbarSearchListener);
+
+    this.agendamentoSyncSub = this.agendamentoSync.agendamentoAtualizado$.subscribe(() => {
+      this.recarregarServicos();
+    });
   }
 
   ngOnDestroy(): void {
+    if (this.agendamentoSyncSub) this.agendamentoSyncSub.unsubscribe();
     window.removeEventListener('navbar-search', this.navbarSearchListener);
+  }
+
+  recarregarServicos() {
+    this.api.buscarTodosServicos().subscribe(res => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        this.api.buscarMeusAgendamentos(token).subscribe(agendamentos => {
+          const idsAgendados = agendamentos
+            .filter((a: any) => a.status?.toLowerCase() !== 'cancelado' && a.status?.toLowerCase() !== 'canceled')
+            .map((a: any) => a.service.id);
+          this.servicos = res.map(s => ({
+            ...s,
+            images: [s.image],
+            price: s.price.toFixed(2),
+            provider: s.provider.name,
+            agendado: idsAgendados.includes(s.id)
+          }));
+          this.servicosFiltrados = [...this.servicos];
+        });
+      } else {
+        this.servicos = res.map(s => ({
+          ...s,
+          images: [s.image],
+          price: s.price.toFixed(2),
+          provider: s.provider.name,
+          agendado: false
+        }));
+        this.servicosFiltrados = [...this.servicos];
+      }
+    });
   }
 
   filtrarServicos(termo: string) {
@@ -187,10 +226,27 @@ export class CatalogoServicosComponent implements OnInit, OnDestroy {
       next: () => {
         servico.agendado = true;
         this.selectedServico = { ...servico };
-        alert('Agendamento realizado com sucesso!');
+        // Atualiza o array servicos e servicosFiltrados para refletir o agendamento
+        this.servicos = this.servicos.map(s => s.id === servico.id ? { ...s, agendado: true } : s);
+        this.servicosFiltrados = this.servicosFiltrados.map(s => s.id === servico.id ? { ...s, agendado: true } : s);
+        this.dialog.open(DialogSuccessComponent, {
+          data: { mensagem: 'Agendamento realizado com sucesso' }
+        });
       },
-      error: () => {
-        alert('Erro ao agendar. Tente novamente.');
+      error: (err) => {
+        let mensagem = 'Erro ao agendar. Tente novamente.';
+        if (err?.error?.message) {
+          mensagem = err.error.message;
+        } else if (err?.status === 409) {
+          mensagem = 'Você já possui um agendamento para este serviço.';
+        } else if (err?.status === 400) {
+          mensagem = 'Dados inválidos para agendamento.';
+        } else if (err?.status === 401) {
+          mensagem = 'Você precisa estar logado para agendar.';
+        }
+        this.dialog.open(DialogSuccessComponent, {
+          data: { mensagem }
+        });
       }
     });
   }

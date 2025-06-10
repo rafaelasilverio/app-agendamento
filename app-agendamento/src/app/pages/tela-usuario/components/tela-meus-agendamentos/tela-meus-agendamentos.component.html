@@ -6,11 +6,11 @@
     </p>
   </div>
 
-  <div class="row gx-4 gy-4">
+  <div class="d-flex flex-wrap justify-content-center gap-4 mt-4">
     <app-confirm-cancel-modal [visivel]="modalVisivel" (confirmar)="confirmarCancelamento()"
       (cancelar)="fecharModal()"></app-confirm-cancel-modal>
 
-    <div class="col-12 col-sm-6 col-md-4" *ngFor="let agendamento of agendamentos">
+    <div style="min-width:340px;max-width:420px;flex:1 1 340px;" *ngFor="let agendamento of agendamentos">
       <app-cards-agendamentos [agendamento]="agendamento"
         (cancelar)="onCancelarAgendamento($event)"></app-cards-agendamentos>
     </div>

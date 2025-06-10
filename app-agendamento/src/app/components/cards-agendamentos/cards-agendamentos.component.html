@@ -29,8 +29,8 @@
     <p class="card-text fw-bold">Preço: {{ agendamento.preco }}</p>
 
     <p class="card-text mb-1">
-      <strong>Data:</strong> {{ agendamento.data | date: 'dd/MM/yyyy' }}<br />
-      <strong>Horário:</strong> {{ agendamento.horario }}
+      <strong>Data agendada:</strong> {{ agendamento.data | date: 'dd/MM/yyyy' }}<br />
+      <strong>Horário confirmado:</strong> {{ agendamento.horario }}
     </p>
 
     <div class="mb-2" *ngIf="agendamento.metodosPagamento?.length">

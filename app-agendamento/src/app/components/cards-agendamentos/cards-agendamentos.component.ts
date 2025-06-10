@@ -31,7 +31,7 @@ export class CardsAgendamentosComponent {
       .subscribe({
         next: () => {
           this.cancelado = true;
-          this.agendamento.status = 'cancelado';
+          this.agendamento.status = 'cancelado'; // Atualiza status imediatamente
           this.cancelar.emit(this.agendamento.id);
         },
         error: (err) => {

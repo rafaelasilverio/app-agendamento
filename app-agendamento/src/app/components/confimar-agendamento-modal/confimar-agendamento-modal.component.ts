@@ -21,6 +21,7 @@ export class ConfimarAgendamentoModalComponent implements OnInit {
   hojeISO: string = '';
 
   diasDisponiveisArray: string[] = [];
+  diasDisponiveisSelect: { label: string, value: string }[] = [];
 
   constructor(private fb: FormBuilder) {}
 
@@ -32,8 +33,32 @@ export class ConfimarAgendamentoModalComponent implements OnInit {
     this.hojeISO = new Date().toISOString().slice(0, 10);
 
     this.diasDisponiveisArray = this.diasDisponiveis
-      ? this.diasDisponiveis.split(',').map(d => d.trim().toLowerCase())
+      ? this.diasDisponiveis.split(',').map(d => d.trim().toLowerCase().slice(0,3))
       : [];
+
+    // Gera os próximos 30 dias que batem com os dias disponíveis
+    const diasSemana = [
+      'dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sáb'
+    ];
+    const hoje = new Date();
+    this.diasDisponiveisSelect = [];
+    for (let i = 0; i < 30; i++) {
+      const data = new Date(hoje.getFullYear(), hoje.getMonth(), hoje.getDate() + i);
+      const diaSemana = diasSemana[data.getDay()];
+      if (this.diasDisponiveisArray.includes(diaSemana)) {
+        const value = data.toISOString().slice(0, 10);
+        const label = `${data.toLocaleDateString('pt-BR', { weekday: 'long', day: '2-digit', month: '2-digit', year: 'numeric' })}`;
+        this.diasDisponiveisSelect.push({ label, value });
+      }
+    }
+
+    // Ajusta o horário mínimo e máximo do input de hora conforme selecionado
+    this.form.get('data')?.valueChanges.subscribe((dataSelecionada: string) => {
+      if (!dataSelecionada) return;
+      // O horário já está limitado pelo [min] e [max] no template, mas pode-se ajustar aqui se quiser gerar opções
+      // Exemplo: gerar horários de 30 em 30 minutos
+      // (pode ser implementado se desejar)
+    });
   }
 
   onClose() {
