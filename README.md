@@ -16,12 +16,11 @@ Ela permite que **prestadores de serviço** configurem seus perfis, disponibiliz
 
 Siga os passos abaixo para rodar o projeto localmente:
 
-``bash
+```bash
 # Instale as dependências
 npm install
 
 # Inicie o servidor de desenvolvimento
 npm run start
-``
 
 Em seguida, abra http://localhost:4200 no navegador para visualizar o projeto.
