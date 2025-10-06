@@ -22,5 +22,5 @@ npm install
 
 # Inicie o servidor de desenvolvimento
 npm run start
-
+```
 Em seguida, abra http://localhost:4200 no navegador para visualizar o projeto.
